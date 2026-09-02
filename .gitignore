@@ -1,0 +1,10 @@
+.DS_Store
+**/.DS_Store
+.trash/
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+.obsidian/plugins/*/data.json
+*.pem
+.env
+.env.*
