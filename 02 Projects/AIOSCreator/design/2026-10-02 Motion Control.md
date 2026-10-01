@@ -26,7 +26,7 @@ Picker di halaman ini: **Kling Motion Control 2.6**, **Kling Motion Control 3.0*
 | Audio dari video acuan | **Keep audio from the drive clip** |
 | Motion Library | **Use a clip** |
 
-Default di situs Kling adalah orientation mengikuti video. Default kita adalah **Still orientation**.
+Default di situs Kling adalah orientation mengikuti video. Default halaman kita sekarang sama: **Drive orientation**.
 
 ## Kling 2.6 dan 3.0
 
@@ -34,7 +34,9 @@ Default di situs Kling adalah orientation mengikuti video. Default kita adalah *
 
 Cara pakai 2.6 di Kling: video gerak, lalu foto karakter dengan proporsi yang sama, lalu pilih orientation, lalu prompt.
 
-3.0 menambah **Bind Facial Element**. Element itu hanya data muka (bukan baju, rambut, makeup, atau prop). Binding hanya jalan kalau orientation karakter sama dengan orientation video. Kita **belum** mengirim element binding. Yang terkirim: still, drive clip, prompt, `character_orientation`, 1080p, dan audio original atau off.
+3.0 menambah **Bind facial element**. Element itu hanya data muka (bukan baju, rambut, makeup, atau prop). Binding hanya jalan kalau orientation karakter sama dengan orientation video, jadi checkbox ini memaksa **Drive orientation**.
+
+Di halaman kita checkbox itu hanya muncul di Kling 3.0, dan default-nya mati. Foto depan element adalah still karakter. Operator menambah 1–3 foto muka lain yang bukan still itu. Generate tetap mati sebelum ada minimal satu foto muka tambahan. Yang terkirim kalau checkbox mati: still, drive clip, prompt, `character_orientation`, `resolution`, dan audio original atau off. Kalau checkbox nyala, request menambah element `element_1`, dan prompt muka memakai `<<<element_1>>>`. Video muka (`video_refer`, 3–8 detik) belum ada di halaman.
 
 ## Supaya hasilnya tidak rusak
 
@@ -52,11 +54,12 @@ Cara pakai 2.6 di Kling: video gerak, lalu foto karakter dengan proporsi yang sa
 - Drive di bawah 2.8 detik ditolak. Kling minta minimal 3 detik.
 - Still orientation di atas 10.05 detik otomatis pindah ke drive orientation.
 - Di luar 340–3850px, drive di-scale dulu.
-- Still maksimal 50MB. Drive maksimal 100MB. Output Kling 1080p.
+- Still maksimal 50MB. Drive maksimal 100MB.
+- Chip kamera hanya dikirim di Still orientation. Di Drive orientation kameranya mengikuti drive clip.
 
 ## Harga di panduan Kling
 
-Durasi dibulatkan ke detik terdekat. Kita tidak punya tombol Standard / Professional di halaman.
+Durasi dibulatkan ke detik terdekat. Kling 2.6 dan 3.0 punya pilihan **Standard** (720p) dan **Professional** (1080p). Endpoint motion-control yang kita pakai tidak punya field `mode`. Yang dikirim adalah `resolution`. Default halaman tetap Professional 1080p. Kalau field itu tidak dikirim, default API adalah 720p. DreamActor tidak punya pilihan ini.
 
 | Model | Standard | Professional |
 | --- | --- | --- |
@@ -65,11 +68,10 @@ Durasi dibulatkan ke detik terdekat. Kita tidak punya tombol Standard / Professi
 
 Contoh mereka: 3.4 detik dihitung 3 detik, 3.6 detik dihitung 4 detik.
 
-## Belum di halaman kita
+## Belum ditembak ke Kling
 
-- Element binding 3.0 (set foto atau video muka).
-- Pilih Standard vs Professional.
-- Default orientation kita masih still, bukan default Kling yang mengikuti video.
+- Buat element muka baru jalan saat Generate, dan itu menyimpan resource di akun Kling. Belum dicoba live, karena bisa kena biaya. Jangan tes dengan Generate kalau tidak sengaja.
+- Video muka (`video_refer`) belum ada. Yang ada foto stills.
 
 ## Links
 
