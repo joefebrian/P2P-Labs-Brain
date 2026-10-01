@@ -13,7 +13,18 @@ Windows: C:\Users\USER\Documents\Obsidian\mygrok
 The Windows app code stays at `C:\Users\USER\Grok\apps\AIOSCreator`. That folder is not the vault. `C:\Users\USER\Grok` is the old Windows vault and still has a copy of older notes. Open `Documents\Obsidian\mygrok` instead.
 
 ## Sync
-Windows keeps a clone and talks to the Mac vault over SSH. A task named `mygrok vault sync` runs every 15 minutes: it commits whatever changed on each side, pulls, then pushes. GitHub `P2P-Labs-Brain` still has the old first commit, because this terminal is not logged into GitHub. Do not put API keys in the vault.
+GitHub is the shared copy: https://github.com/joefebrian/P2P-Labs-Brain
+The Windows PC is already logged in as `joefebrian`.
+
+Every day at 23:30 the task `mygrok github sync` does this:
+
+1. Commit notes changed on the Mac.
+2. Commit notes changed on Windows.
+3. Merge the two into `main`.
+4. Push `main` to GitHub.
+5. Fast-forward the Mac to that same `main`.
+
+If the same note was edited on both computers and git cannot merge it, the task stops and does not push. The next session resolves that merge, then both computers get `main` again. Do not put API keys in the vault.
 
 ## Open Grok inside vault
 ```bash
