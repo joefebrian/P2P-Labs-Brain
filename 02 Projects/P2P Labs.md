@@ -14,7 +14,7 @@ Creator Economy SaaS Operating System — music, video, image, affiliate, API in
 - Swarm agents di `~/.grok/config.toml` (trend, YT, TikTok, Meta, affiliate, dll.)
 - **Flagship products:** [[02 Projects/atlasnow|AtlasNow]] (`atlasnow.co`) + [[02 Projects/AtlasNexus|AtlasNexus]] (`atlasnexus.app`) + [[02 Projects/WaveLead|WaveLead]] (WhatsApp Channel discovery / follow intent · [repo](https://github.com/joefebrian/wavelead))
 - **Internal lab:** [[02 Projects/affiliate-video-tool|affiliate-video-tool]]
-- **Public site:** https://p2plabs.asia on its **own** VPS (not AtlasNow)
+- **Public site:** https://p2plabs.asia on its **own** VPS (not AtlasNow) · GitHub **private** [joefebrian/p2plabs.asia](https://github.com/joefebrian/p2plabs.asia)
 - **Brand (locked 2026-09-02):** [[p2plabs/P2P-Labs-Brand|P2P-Labs-Brand]] · [[p2plabs/P2P-Labs-Design-System|design system]] · PDF in `02 Projects/p2plabs/`
 
 ## Ops — p2plabs.asia VPS (2026-09-01)
@@ -28,6 +28,11 @@ Creator Economy SaaS Operating System — music, video, image, affiliate, API in
 | Do not | Docker, Node, Postgres, AtlasNow, Sorak, mix `.env` from `76.13.198.28` |
 
 HTTPS live 2026-09-02: https://p2plabs.asia (Let’s Encrypt, renews via certbot.timer). DNS A `@` = `116.206.196.6`.
+
+### 2026-09-16 (site on GitHub)
+- Changed: First git repo + push `main` → private [joefebrian/p2plabs.asia](https://github.com/joefebrian/p2plabs.asia). Live VPS unchanged.
+- Why: Joe: website belum ada di GitHub, minta di-push.
+- Next: Deploy still rsync to VPS (README).
 
 ### 2026-09-02 (People to Prosperity + light site)
 - Changed: Public meaning locked to **People to Prosperity** (memakmurkan orang). Second P may also be Performance / Partner / People to People. No P2P Network on the site (later a service). Horizontal logo from Shared Drive. Holding page rebuilt light (white/neutral, purple CTA). Live on https://p2plabs.asia.

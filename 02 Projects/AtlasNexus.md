@@ -10,13 +10,13 @@ Platform creator economy: brand ↔ creator campaigns (YouTube-first), discovery
 
 ## Paths
 ```
-Repo (local): /Users/joefebrian/Downloads/Working Desk/artifacts/atlasnexus
-HTML demo:    /Users/joefebrian/Downloads/Working Desk/artifacts/atlas-nexus-demo
+Repo (local): /Users/joefebrian/Downloads/Working Desk/Atlas Technology/atlasnexus
+HTML demo:    /Users/joefebrian/Downloads/Working Desk/Atlas Technology/atlasnexus-demo
 Live app:     https://atlasnexus.app
 ```
 
 ```bash
-cd "/Users/joefebrian/Downloads/Working Desk/artifacts/atlasnexus"
+cd "/Users/joefebrian/Downloads/Working Desk/Atlas Technology/atlasnexus"
 # docker compose up --build   # postgres + stack
 # cd web && npm run dev       # Next app (check port vs AtlasNow :3000)
 ```
@@ -82,7 +82,7 @@ P2P Labs (company / vision)
 
 ### 2026-08-11
 - Context switch from AtlasNow → AtlasNexus (park GBP write work until “balik atlasnow”)
-- Local repo found under `artifacts/atlasnexus` (Next `web/` + Python `worker/` + docker postgres)
+- Local repo: `Atlas Technology/atlasnexus` (Next `web/` + Python `worker/` + docker postgres). HTML mock: `Atlas Technology/atlasnexus-demo`.
 
 ### 2026-08-04
 - Vault second brain: AtlasNexus ditambahkan sebagai project utama (sebelumnya cuma di browser, belum di brain).

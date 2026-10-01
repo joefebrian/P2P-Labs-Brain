@@ -22,12 +22,14 @@ related:
   - "[[AtlasNow-PRD]]"
   - "[[AtlasNow-Blueprint]]"
   - "[[AtlasNow-Loyalty-Decision]]"
+  - "[[AtlasNow-Free-Activation-PRD]]"
 ---
 
 # WhatsApp: HQ official vs branch monitor (locked 2026-08-25)
 
 > [!success] Decision
 > **One official HQ number per brand** on **WhatsApp Cloud API** (Meta). That number is for **blast + loyalty + HQ inbox**.
+> **Free (2026-09-09):** that same HQ number may be **coexistence** — WhatsApp **Business App** (green) + Cloud API, one number. Setup on Free is Rp 0. See [[AtlasNow-Free-Activation-PRD]].
 > **Branch numbers are not used to reply from Atlas.** For now they are **monitor-only**: ingest chats for analysis and reporting later.
 
 ## Two jobs, two kinds of number
@@ -47,6 +49,8 @@ Not 31 blast senders. Not “every cashier lives in Atlas”.
 4. `STOP` / `UNSUB` on HQ drops them from blast immediately.
 5. No CSV dump of branch phones into Cloud API.
 6. Same number cannot be Cloud API **and** WAHA. HQ is official only.
+7. Same number **may** be Cloud API **and** WhatsApp **Business App** (coexistence). WhatsApp **pribadi** (putih) **tidak bisa** jadi nomor Cloud. Owner **harus ganti ke WhatsApp Business App dulu** (atau pakai nomor lain yang sudah Business App), baru Embedded Signup / coexistence.
+8. Coexistence = **Embedded Signup v4**, not paste-token. Token-paste is dedicated Cloud (phone app typically drops off). Do not train token-paste as coexistence.
 
 ## Loyalty sits on the HQ number
 
@@ -69,6 +73,20 @@ Wave A build order:
 2. **Branch observe** later / few stores only — ingest, no reply. Do not connect 31 cabang.
 
 If a brand never connects cabang WAHA, HQ Cloud API still stands alone.
+
+## Coexistence (locked 2026-09-09)
+
+**ICP:** owner already on WhatsApp Business App **2.24.17+** on the **shop** number. WhatsApp pribadi tidak bisa — harus ganti ke WhatsApp Business App dulu. (Click-to-WA ke HQ AtlasNow setelah signup = HP mana saja, termasuk pribadi; itu nomor job lain.)
+
+**Owner:** Embedded Signup → Facebook login → same green-app number → official Facebook Business chat on the phone → Connect + code. Keep the app installed; open ~every 14 days or Meta disconnects (`PRIMARY_INACTIVITY`).
+
+**Atlas (after PRD, app `1551959122621683`, PT Sorak Tech Provider verified):** ES v4; webhooks `history`, `smb_message_echoes`, `smb_app_state_sync`; skip `/register` on coexistence finish; sync history within 24 hours.
+
+**Pricing:** messages **from the phone app** stay Meta-free. Messages **from Atlas Cloud** follow Cloud pricing (1 000 service/month, then Meta bills the WABA). No payment method → Atlas send fails; the phone still works.
+
+**App-side after onboard:** 1:1 chats mirror. Groups / status / catalog **not** in Atlas inbox. **Broadcast lists on the app are disabled.** Voice/video stay on the phone. No blue badge / Calling API promise.
+
+**Tech Provider trust copy:** small on `/pricing` Free card only — *PT Sorak Digital Media is a Meta Tech Provider.* App AtlasNow `1551959122621683`. Not homepage hero. Not a Meta Partner logo.
 
 ## Official spec (reference, not an SDK)
 

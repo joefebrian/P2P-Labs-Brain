@@ -6,8 +6,8 @@ aliases:
 company: P2P Labs
 product: AtlasNow
 document_type: prd
-version: 0.2.0
-date: 2026-08-29
+version: 0.3.0
+date: 2026-09-09
 status: draft-for-founder-review
 depends_on:
   - "[[AtlasNow-Blueprint]]"
@@ -95,7 +95,9 @@ flowchart LR
 3. **Retain** — monthly Control on the active location set.
 4. **Expand** — Conversation, Convert, then Revenue when the product can prove it.
 
-Public site (2026-08-29): **Free** = membership desk without Meta/Google APIs (hook). Paid Brand/Group = quote after follow-up, then APIs. Internal demo logins stay internal. Free is **not** free WhatsApp blast.
+Public site (2026-09-09): **Free** = membership (QR, stamps, receipt photo, 2 outlets) **plus one HQ Cloud number with WhatsApp Business App coexistence** — setup **Rp 0**. Not free blast. Not Google. Not GO. Login after human follow-up. Click-to-WA to AtlasNow HQ on the pending page. Internal demo logins stay internal. Journey: [[AtlasNow-Free-Activation-PRD]].
+
+`/pricing` Free card (small, not hero): *PT Sorak Digital Media is a Meta Tech Provider.* App **AtlasNow** `1551959122621683` under that business. Do not put a Meta Partner logo on the homepage.
 
 ## 4. Packages
 
@@ -146,8 +148,9 @@ Write the invoice line as **Conversation (beta) — inbox for connected chats**.
 | **Active location** | `Location.status = ACTIVE` and the client wants it in the monthly set | Per location / month |
 | **Connected chat channel** | ACTIVE mapping `WAHA` or `FACEBOOK` / `INSTAGRAM` on that location | Conversation add-on / channel / month |
 | **Seat** | A login | No (MVP) |
-| **Message volume (inbound)** | Customer wrote first, 24h service window | No. Care replies are not PAYG. |
-| **WhatsApp credits** | Billed Cloud **template** sends (blast / utility / auth outside the free window) | Yes — PAYG wallet, §16 |
+| **Message volume (inbound)** | Customer wrote first (their message is still free) | No — inbound never billed. |
+| **HQ session reply (service)** | Non-template reply by a person (or 3rd-party AI). Meta: **free until 30 Sep 2026**. From **1 Oct 2026** 00:00 WABA TZ: service rate = utility/auth by market; **1 000 free service msgs / phone / month**, no rollover. Click-to-WhatsApp **entry-point window** still free. | Atlas add-on stays **0** until founder locks. Show remaining free 1 000. After 1 000, Meta bills the WABA — do not pretend inbox is unlimited-free. |
+| **WhatsApp credits** | Billed Cloud **template** sends (marketing / utility / auth). From 1 Oct 2026 utility **inside** the 24h window is also billed by Meta. | Yes — PAYG wallet, §16 |
 | **Other usage** | Anything we pay a vendor per use (future OCR overage, extra WABA, etc.) | Yes — same wallet or a named meter, §17 |
 | **Google / Meta API quota** | Their tokens | No — they own the accounts |
 
@@ -209,7 +212,8 @@ Founder lock checklist (do not publish until ticked):
 - [ ] Conversation per channel IDR
 - [ ] Audit / Foundation IDR
 - [ ] Pilot discount rule
-- [ ] VAT and invoice legal name (P2P Labs)
+- [x] Invoice legal name: **PT Sorak Digital Media (P2P Labs)** (Joe 2026-09-05). Product on the paper = AtlasNow. Do not mix Sorak API keys onto Atlas.
+- [x] VAT: **off by default**, per-invoice checklist labelled **VAT**. Always **Indonesian PPN 11%** from PT Sorak Digital Media — including Singapore company clients. Not Singapore GST. No GST-registration gate. Joe remits (or refunds) to DJP manually. Do not silently add tax.
 
 ## 8. Contracts and billing ops
 
@@ -221,7 +225,8 @@ Founder lock checklist (do not publish until ticked):
 | Currency | IDR unless the SOW says otherwise. |
 | Start date | First day an active location is live in Atlas **or** SOW start — whichever the SOW names. |
 | Churn | 30-day notice. Location count is the last locked list before notice. |
-| Downgrade | Client can archive locations; next invoice shrinks. |
+| Refund | **No cash refund** of a paid invoice (unused days, 90-day pilot) or unused WhatsApp credits. Workspace stays on until the paid period ends. Joe 2026-09-07. |
+| Downgrade | Client can archive locations; next invoice shrinks. No cash back on the current invoice. |
 | Failed payment | Soft-off: read-only after 14 days overdue. Do not delete their data. |
 | Who invoices | P2P Labs ops. Not the app. |
 
@@ -278,11 +283,16 @@ Do not put these numbers on the marketing site.
 5. Legal entity and tax on the invoice.
 6. Creem vs stay invoice-only for credit packs (§15).
 7. Credit pack sizes and Atlas margin on Meta WhatsApp rates (§16).
-8. Does Free ever get a tiny care-only Cloud number, or is Cloud always paid Brand?
+8. **LOCKED 2026-09-09:** Free **may** connect **one** HQ Cloud number + **coexistence** (Business App hijau + Cloud, same number). Setup Rp 0. 1 000 Meta service msgs/month are Meta’s gift — do not sell. Blast/templates = credits **later**. Personal WhatsApp (white) out. Silver packaging **parked** (do not rewrite this release). Payment gateway + Meta credit top-up = follow-up on this PRD, not this lock.
+9. **(2026-09-03 / schema 2026-09-04 / card 2026-09-05 / W1 2026-09-06)** From 1 Oct 2026 Meta bills **service** after 1 000 **per WABA Cloud phone** / **calendar month** (not daily, no rollover). Official Oct 1 IDR CSV is loaded in `rates.ts`. **W1 shipped:** Inbox + Chat apps show remaining 1 000; count delivered session/service now as October preview; **no debit**. Debit service only if P2P owns the WABA (later). Atlas service add-on 0 until a later lock. **Not** Meta Business Agent.
+10. Marketing **max-price** (Oct 2026 date TBC): later, Broadcast only, after founder wants spend caps. Not Wave A.
+11. **LOCKED 2026-09-09 (sequence):** **Finalize Indonesia payment first (Rail A IDR).** Do not wire Creem, USD checkout, or an Atlas FX-rate API. SG/US merchants later = **USD on Creem** (or Creem’s own FX if they expose it) — not iPaymu, not a third rail. `/pricing` stays IDR. Wallet inside AtlasNow stays IDR. iPaymu = current ID KYC candidate; not locked vs Xendit/Midtrans until founder picks.
 
-Until (1) or (7) is checked, engineering does **not** wire Creem or debit credits in production. `/pricing` copy may stay “we’ll quote.”
+Until (1) or (7) is checked, **and until Rail A Indonesia actually collects**, engineering does **not** wire Creem or debit credits in production. `/pricing` copy may stay “we’ll quote.”
 
 **Execution (2026-08-29):** public `/pricing` = Free + quote, no card checkout. No Creem/Stripe in the app yet. Resume credits + gateway after founder locks §7 bands **or** credit pack IDR in §16, and at least one brand SOW or self-serve top-up is real.
+
+**Execution (2026-09-06):** founder lock public Silver = **Rp 500.000** / month, **2 outlets**, **one official WhatsApp Business (Cloud HQ) number** + Atlas blast (Meta rate extra). Not a branch WAHA session. Gold still 2 jt (Google + GO + branch watch, 5 outlets). Extra outlet +150 rb. Grandfather existing SOWs.
 
 ## 13. Relationship to other docs
 
@@ -299,7 +309,7 @@ Until (1) or (7) is checked, engineering does **not** wire Creem or debit credit
 Bukan hanya tiket billing. **Setiap** fitur, halaman, copy, atau integrasi baru lewat gate ini dulu:
 
 1. Does it cost us per use (Meta, Google, compute)? → wallet / PAYG here, or it is not billed.
-2. Does it need Cloud / GBP? → not on Free (§3 / public pricing).
+2. Does it need Cloud? → Free: **1 HQ + coexistence only** ([[AtlasNow-Free-Activation-PRD]]). GBP / GO / blast → not on Free. Credits → not until this PRD’s follow-up.
 3. Does it take money from a customer? → rail A IDR or rail B Creem (§15.3), never a third silent gateway.
 4. Would copy say “free / unlimited / included”? → check this PRD first.
 
@@ -374,26 +384,30 @@ Paying entity
 
 **Wallet (credits) is always IDR inside AtlasNow.** Meta’s rate card is IDR. If they paid USD on Creem, we credit the wallet at a **locked FX on that top-up** (show the rate on the receipt). Burn is still Meta IDR + Atlas fee. Do not keep a second USD balance.
 
-**Now (no app checkout):** both rails can be invoice — IDR transfer for A, USD wire/Wise for B — until Creem is live.
+**Now (no app checkout):** Rail A = IDR invoice / BCA transfer. Rail B = do not build. If a foreign HQ appears before Creem, invoice USD wire/Wise by hand — not a product path.
+
+**Sequence (locked 2026-09-09):** ship **Indonesia PG first**. Foreign (SG/US) merchants are **USD**, and if a gateway owns FX it is **Creem’s** FX — AtlasNow does **not** run an FX-rate API. Do not geo-price `/pricing`. Do not mix iPaymu into Rail B.
 
 **Do not:** send an Indonesian HQ to Creem USD checkout “because we have it.” They eat FX twice.
 
-**Later IDR self-serve:** Xendit or Midtrans, not Creem. Creem has no IDR product currency.
+**Later IDR self-serve:** iPaymu is the **current KYC** (PT Sorak Digital Media). Still open vs Xendit/Midtrans until founder picks one IDR rail. Not Creem — Creem has no IDR product currency.
 
-Open: exact Xendit vs Midtrans when we build IDR top-up. Not blocking.
+Open: exact iPaymu vs Xendit vs Midtrans when we build IDR checkout. Not blocking Creem (Creem is parked until ID collects).
 
 ## 16. WhatsApp credits (PAYG)
 
 This is the blast / template money. It is **not** the Brand subscription.
 
-Code already knows Meta’s per-message card (`src/lib/broadcast/rates.ts`, effective **1 July 2026**, IDR). Indonesia examples on that card:
+Code uses Meta’s official **1 October 2026** IDR card (`src/lib/broadcast/rates.ts`, CSVs in `docs/meta/`). Estimates use that card **now** (founder 2026-09-05: do not wait until 1 Oct). Meta still invoices the July card until 00:00 WABA timezone 1 Oct. Indonesia list rates **did not move**:
 
-| Kind | Meta IDR / message (ID dest.) | Atlas default add-on (DRAFT) |
+| Kind | Meta IDR / message (ID dest., card **1 Oct 2026**) | Atlas default add-on (DRAFT) |
 |---|---|---|
-| Session (customer wrote, 24h) | 0 (service window) | 0 — **do not sell this as credits** |
-| Utility | 356.65 | + IDR 90 + marginPct |
+| Session / **service** (person replies) | **356.65** (same as utility). First **1 000 service / WABA phone / month** free, no rollover. Until 30 Sep Meta still invoices Rp 0 for these; the desk already quotes October. | 0 — do not sell the free 1 000 as credits. After 1 000, Meta bills the WABA; Atlas add-on still 0 until founder locks. |
+| Utility | 356.65 (also charged **inside** 24h from 1 Oct) | + IDR 90 + marginPct |
 | Authentication | 356.65 | + IDR 90 + marginPct |
 | Marketing (blast) | 586.33 | + IDR 150 + marginPct |
+
+Auth-international for ID remains **1 940.13**. Markets that *did* move: marketing Mexico / Saudi / UAE; utility Pakistan / Peru / South Africa; nine new standalone markets (Bangladesh, Iraq, Kazakhstan, Kuwait, Morocco, Nepal, Oman, Sri Lanka, Ukraine) plus Rest-of regions. Volume tiers for Indonesia utility start after 750 000 msgs/month — list rate is what we quote.
 
 PPN 11% is an **estimate on our invoice**, not a Meta line. `marginPct` default 0 until founder locks.
 
@@ -401,13 +415,13 @@ PPN 11% is an **estimate on our invoice**, not a Meta line. `marginPct` default 
 
 | Rule | Decision |
 |---|---|
-| Unit | **1 WhatsApp credit** = **1 billed Cloud template send** that Meta would charge (utility / marketing / auth). |
-| Session reply | **0 credits.** If they wrote first and we answer inside the window, that is the product, not PAYG. |
+| Unit | **1 WhatsApp credit** = **1 billed Cloud send** that Meta would charge (template; later service after the free 1 000 if founder says meter it). |
+| Session reply | **Until 30 Sep 2026: 0 credits.** From **1 Oct 2026:** first 1 000 service msgs / HQ number / month stay 0. The 1 001st onward Meta bills at service=utility. Atlas does **not** debit credits for those until founder locks. Still show the remaining free count. Click-to-WhatsApp ads / free entry-point window: still 0. |
 | Destination | Burn is **by recipient market** on Meta’s card, not “1 credit = 1 message worldwide.” Display estimated IDR before send. |
 | Failed send | Meta did not bill → **do not debit**. Debit only on accepted Cloud send. |
 | STOP / opt-out | Still required. Credits never allow a CSV blast. Only HQ Cloud, only people who chatted or opted in. |
 | Who holds the wallet | **Brand tenant** (one brand). Group desk spends the **active brand’s** wallet. |
-| Free plan | **Cannot** connect Cloud, **cannot** buy or spend credits. |
+| Free plan | **May** connect **1** HQ Cloud + coexistence. **Cannot** buy or spend credits in this release (wallet off until follow-up lock). |
 | Brand / Group | Cloud connected → wallet + top-up. |
 
 Do not invent a second “SMS credit” until we actually send SMS.
@@ -420,7 +434,7 @@ Settings → Broadcast (already has fee config):
 - Before a blast: `N numbers × (Meta + Atlas + PPN est.) = total`. Block send if wallet < total.
 - After: ledger line per campaign, not per mystery debit.
 
-HQ inbox care replies: no wallet prompt.
+HQ inbox care replies: no wallet prompt until founder meters service. From 1 Oct 2026 the **desk must show** remaining free service messages (1 000 / number / month). After that, the Meta invoice (brand WABA or P2P pass-through) is real — copy must not say “balasan di jendela 24 jam selalu gratis.”
 
 ### 16.3 Packs (DRAFT — founder lock)
 
@@ -468,7 +482,7 @@ Feature is PAYG
 | Meter (now / next) | PAYG? | Notes |
 |---|---|---|
 | WhatsApp template blast | **Now (design)** | §16 |
-| WhatsApp session / HQ reply | No | Product |
+| WhatsApp session / HQ reply | No Atlas debit until founder lock. **Meta yes after 1 Oct 2026** (past 1 000/mo) | Product + honest remaining-free meter |
 | Stamp / join / receipt photo | No on Free/Brand software | That’s the desk |
 | Extra Cloud WABA | Later | Per-number, not per-message |
 | OCR overage | Later | Only if Tesseract/VPS actually hurts |

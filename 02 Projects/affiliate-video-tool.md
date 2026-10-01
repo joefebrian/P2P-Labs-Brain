@@ -9,7 +9,12 @@ Tool internal: scan creator video, deteksi produk/brand affiliate, multiupload, 
 🟡 Active · **session focus (switched from AtlasNexus)**
 
 ## Repo
-`/Users/joefebrian/affiliate-video-tool`  
+`/Users/joefebrian/Downloads/Working Desk/plugins` · GitHub [joefebrian/plugins](https://github.com/joefebrian/plugins)
+
+```bash
+cd "/Users/joefebrian/Downloads/Working Desk/plugins" && grok
+```
+
 Run: `./run-web.sh` → http://localhost:8080  
 Login: `admin` + password di `.env` (`AUTH_PASSWORD`)
 

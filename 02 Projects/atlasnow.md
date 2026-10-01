@@ -9,10 +9,109 @@
 **Promise:** Turn existing Google presence into measurable local growth.
 
 SOP discoverability: [[03 Areas/SEO-AEO-GEO]]  
-TikTok developer (2026-08-31): org **PT Sorak Digital Media** · app **AtlasNow** (Business) App ID `7679020348364392455`. **Not** SWYPE. Keys stay on this app only.
+TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) App ID `7679020348364392455`. **Not** SWYPE. Keys stay on this app only.
 
-**Parked (Joe 2026-08-31):** native TikTok inbox waits for **Business Messaging** (partner / TikTok review). Do not wire Login Kit OAuth as if it were DMs. Wave A path stays TikTok ads/bio → WhatsApp. GO till is a separate product if we pick it later.  
+**2026-09-02 19:58:** Developer Portal — **AtlasNow Live** (Production). Confirmed product **Local Service API** only. Scopes Live: `local.shop.manage`, `local.product.manage`, `local.voucher.manage`. This is **TikTok GO Dining till** (query + redeem voucher), not Login Kit, not DMs, not Shop CS. Live kasir still needs dining **merchant_id** + token after Merchant Portal Accept. Spec: `docs/superpowers/specs/2026-08-28-tiktok-local-service-design.md`.
+
+**2026-09-02 GO till demo (built):** public `https://atlasnow.co/demo/go`. In-app: Chat apps → TikTok GO till (merchant ID → they Accept AtlasNow in Merchant Portal → Fetch token → map shops). Loyalty Scan sample QR `TT-DEMO-*` + recap tebus per outlet (not GMV). Live TT- redeem still needs merchant token. Not DMs.  
 **Money master (wajib dibaca sebelum develop fitur berbayar / Free / kredit / payment):** [[AtlasNow-Monetization-PRD]]
+
+**Language (locked 2026-09-06):** product surface = **workspace**, never **meja**. Physical table (QR di meja toko) stays meja.
+
+### 2026-09-19 (Meta App Review approved)
+- Changed: Submission **19 Sep 2026 23:41 GMT+7** approved. New Advanced Access: `pages_manage_metadata`, `pages_messaging`, `instagram_manage_messages`. Renewed: `whatsapp_business_messaging`, `pages_show_list`, `business_management`, `public_profile`, `whatsapp_business_management`, `instagram_basic`. **Did not** request `pages_read_engagement`. App **AtlasNow** `1551959122621683` still **Unpublished**.
+- Why: Joe screenshot App Review. Last Policy 1.6 resubmit landed.
+- Next: Joe clicks **Publish → Live** when ready (testers-only until then). Then smoke Connect Page/IG as a non-tester. Drop in-app “In development” captions. No Pixel, no MBA on live HQ, no extra perms.
+
+### 2026-09-13 (Review Capture P0 live)
+- Changed: `/r/{token}` 302 to Google writereview; intent events + UTM; QR on Reviews + Outlets 360 Reputation. Tiles: intents, new reviews, **Estimated** rate. Capture all outlet plans. GBP reply still Gold. Migration `20260911180000_review_capture` applied.
+- Why: Joe gassed P0.
+- Next: Map Place ID (ChIJ) on outlets, print QR. P1 AI later.
+
+### 2026-09-16 (GitHub)
+- Changed: First remote. Private [joefebrian/atlasnow](https://github.com/joefebrian/atlasnow) `main` = local product snapshot (607 files). `.env` not in git.
+- Why: Joe: push atlasnow juga.
+- Next: Railway/deploy still separate.
+
+### 2026-09-11 (Meta Business Agent = later roadmap)
+- Changed: Joe parked **Meta Business Agent** as future Atlas development, not Wave A. Inbox stays **human reply**. Do not Enable agent on live HQ Cloud numbers (thread control → Atlas standby). Test only on a spare WABA/number if ever. Not a live SKU; monetization PRD still “we do not sell MBA.”
+- Why: Meta email “test agent at no charge”; Joe: menarik, roadmap.
+- Next: App Review Messenger/IG + iPaymu KYC. Don’t build MBA.
+
+### 2026-09-11 (footer legal name)
+- Changed: Public copyright (home/legal/login/signup/AppShell) → `© YEAR AtlasNow · A P2P Labs (PT Sorak Digital Media) product`. Login left credit same. About “Made by …” already had PT (2026-09-10).
+- Why: Joe: last convo was PT in the footer, not only About.
+- Next: Live check atlasnow.co footer.
+
+### 2026-09-10 (About credit)
+- Changed: `/about` Developer block → **Made by P2P Labs (PT Sorak Digital Media)** (ID: Dibuat …). Same line under the body + email.
+- Why: Joe screenshot lock.
+- Next: Footer copyright now includes PT (2026-09-11).
+
+### 2026-09-10 (signup = one brand)
+- Changed: `/signup` always **CLIENT / one brand**. Dropped One vs Several toggle (that created AGENCY). Optional checkbox “I run more than one brand” → tenant notes for Activate. Logo first, then name, WA, email, password, terms, Continue; Google/Facebook at the bottom. `kind=agency` ignored.
+- Why: Joe: page felt weird; daftar 1 dulu; group activation di backend.
+- Next: Deploy. Follow-up baca notes “Asked for several brands”.
+
+### 2026-09-09 (GA4 Ads-ready)
+- Changed: Consent Mode v2 on public pages (denied until OK, then analytics + ads granted). Cookie notice **v3** (re-consent). Events: `generate_lead`, `sign_up`, `click_to_whatsapp`, `select_item`. Enhanced conversions = hashed email on signup/contact. `url_passthrough` + `_gcl_au`. AW- tag env `NEXT_PUBLIC_GOOGLE_ADS_ID` empty until Joe pastes. Legal/cookies updated. Still no Meta Pixel. Still no GA in workspace.
+- Why: Joe will connect Google Ads; maximize GA4 now.
+- Next: Joe — Admin GA4: key events, link Ads, Google signals ON, ignore query `brand`, internal IP, GSC. Paste AW- ID when Ads account exists, then rebuild.
+
+### 2026-09-09 (GA4 G-HY5V8HH3Z1)
+- Changed: Public-only GA4 after cookie OK (`G-HY5V8HH3Z1`). Not inbox/loyalty/cards. Ads denied. `generate_lead` on contact + `/signup/pending`. Cookie notice key bumped to v2. Privacy/cookies/FAQ/help copy updated (no longer “we don’t run Analytics”).
+- Why: Joe pasted gtag snippet; picked Generate leads + traffic.
+- Next: Deploy + OK the banner on atlasnow.co; Realtime in GA. FAQ row in DB may still be old until reset in Settings.
+
+### 2026-09-09 (payment: Indonesia first, Creem parked)
+- Changed: Locked [[AtlasNow-Monetization-PRD]] §12.11 + §15.3 sequence. **Rail A IDR dulu** (invoice/BCA now; iPaymu KYC in progress, not locked vs Xendit/Midtrans). SG/US merchant later = **USD on Creem** (Creem’s FX if any). **No Atlas FX API.** No third rail. `/pricing` stays IDR. Wallet stays IDR. Do not wire Creem or debit credits until ID actually collects.
+- Why: Joe: foreign merchants standard USD / follow PG FX, but finalize Indonesia payment gateway first.
+- Next: Finish iPaymu KYC (product/jasa email). Do not integrate iPaymu or Creem until Joe says gas.
+
+### 2026-09-09 (ES v4 config + Chat apps Connect)
+- Changed: Facebook Login config **WhatsApp ES v4** `1401943948578182` (Cloud API, system-user, never, WABA MANAGE). Stored `META_WHATSAPP_ES_CONFIG_ID` — not Pages+IG `2295500691270291`. Chat apps primary button **Connect WhatsApp Business** (coexistence extras). Token paste = P2P fallback. Skip `/register` on `FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING`. Ingest `smb_message_echoes`.
+- Why: Joe created the v4 configuration; gas connect flow.
+- Next: Joe — Facebook Login **Allowed domains** + JS SDK + WhatsApp webhook fields `history` / `smb_message_echoes` / `smb_app_state_sync` / `account_update`. App still In development (testers only). Then try Connect on Chat apps.
+
+### 2026-09-09 (signup HP field)
+- Changed: `/signup` wajib nomor WhatsApp (08 / +62 / 62) → `Tenant.contactPhone`. Google/Facebook signup bawa HP di OAuth state. Login OAuth existing user tetap tanpa HP. Follow-up tables show the number. [[AtlasNow-Free-Activation-PRD]] §3.
+- Why: Joe: field HP masukin aja. ES v4 tetap belum — itu Embedded Signup Meta (coexistence), bukan HP.
+- Next: Deploy signup. Jangan ES v4 sampai Joe minta.
+
+### 2026-09-09 (click-to-WA pending + WA pribadi wording)
+- Changed: `/signup/pending` tombol **Chat HQ AtlasNow** (`wa.me/6285863666290?text=Halo AtlasNow, saya baru daftar [merek]`). Mereka harus Send — buka jendela 24 jam, Activate = session reply, bukan template. Brand query dari signup + OAuth. **Dua nomor:** chat HQ boleh HP pribadi; nomor **toko** Cloud **tidak bisa** WA pribadi — harus ganti ke WhatsApp Business App dulu. Bukan “WA pribadi = no, tercatat.” Patched [[AtlasNow-Free-Activation-PRD]] §6a, [[AtlasNow-WhatsApp-Decision]] rule 7, [[AtlasNow-PRD]] §6.0.
+- Why: Joe: setup #2 saja; #3 wording sebelumnya ambigu.
+- Next: Deploy pending page. Jangan ES v4 / HP-on-signup / payment gateway sampai Joe minta.
+
+### 2026-09-09 (Free activation PRD + coexistence)
+- Changed: Locked [[AtlasNow-Free-Activation-PRD]]. Signup HP wajib; Activate manusia; click-to-WA ke HQ AtlasNow (bukan template dari customer); kontak masuk P2P Labs. Free boleh 1 HQ Cloud + coexistence (app hijau). TP = PT Sorak + app AtlasNow `1551959122621683`. Trust line kecil di `/pricing` Free card. Silver parked. Payment gateway / kredit Meta = follow-up Monetization. Patched [[AtlasNow-PRD]] §6.0, [[AtlasNow-Monetization-PRD]] #8, [[AtlasNow-WhatsApp-Decision]], [[AtlasNow-Loyalty-Decision]].
+- Why: Narik owner yang sudah WA Business di HP; filter ngasal tetap manusia.
+- Next: Jangan build dulu kecuali Joe minta. Lalu: signup HP + pending wa.me; ES v4 + webhook coexistence; training modul setelah Connect bisa di-demo. App masih In development — Live + App Review sebelum ES ke merek luar.
+
+### 2026-09-09 (Free training + 2-outlet cap)
+- Changed: Dropped “Use the desk first / Pakai mejanya dulu” from `/pricing` Free card (hook is now QR/stamps/receipt photos). Same phrase off landing + pitch. `/deck_train` now starts Free: what’s on/not (from the pricing bullets), onboarding (signup → brand mark → 2 outlets → P2P adds users → menus), then existing loyalty slides kept. `Tenant.plan` + Locations hard-stop at 2 store doors on Free (create, unarchive, CSV, Google-map create). P2P can change plan on the client page.
+- Why: Joe: that line belongs in deck_train first, not the pricing card; 2-outlet cap was copy-only.
+- Next: Open `/deck_train` (login) and walk Free slides. Brand Admin still cannot self-serve invite. Birthday WA H-2 stays off Free (needs HQ Cloud / Silver). Do not rewrite Silver/Gold training yet.
+
+### 2026-09-09 (IG inbox @username)
+- Changed: Inbox title for IG/Messenger uses Graph profile → `waContact.displayName`. IG = `@joefebrian.h`. Messenger PSID `GET /{id}?fields=name` failed (unsupported); fallback `first_name,last_name` + Page `/conversations?user_id=` participants. UI never titles with IGSID/PSID.
+- Why: Joe: IG inbound showed IGSID; Messenger showed PSID `28143730531949661` not the Facebook name.
+- Next: Hard-refresh Inbox after deploy. Messenger shows Facebook **name** (no public @handle). Record live Send + native cut. Do not resubmit `pages_read_engagement`. Do not Publish Meta app.
+
+### 2026-09-07 (Meta App Review UI)
+- Changed: Chat apps + Conversations captions for Meta review — asset (Page / IG) visible, Facebook Login + webhook subscribe panel, live Send helper, inbound “Received via webhook”, 4s poll on Messenger/IG threads. Drop `pages_read_engagement` still.
+- Why: Reviewer Policy 1.6: screencast must show asset selection, live send from app, native delivery, and a webhook event on the same Page.
+- Next: Switch UI to EN, re-record 3 perms (`pages_messaging`, `instagram_manage_messages`, `pages_manage_metadata`). Do not Publish Meta app yet. Do not resubmit `pages_read_engagement`.
+
+### 2026-09-07
+- Changed: Public cancel/refund — no cash refund of paid invoices; workspace until paid period ends; 30-day notice. On `/pricing#cancel` + `/terms#fees-cancellation-refunds`.
+- Why: Joe locked A (SaaS, like finishing a paid month — not an instant refund).
+- Next: Deploy pricing + terms. Do not invent prorata.
+
+### 2026-09-06
+- Changed: Language lock — say **workspace**, not meja/desk, for the AtlasNow product surface.
+- Why: Joe: meja ambiguous in ID.
+- Next: Coexistence still discussion; HQ default remains dedicated Cloud (not WhatsApp Business App on phone) until Joe locks otherwise.
 
 ### 2026-09-01 (broadcast Meta report PRD — not built)
 - Changed: PRD + spec for Broadcast **History**: Meta `sent` / `delivered` / `read` / `failed` / **Action** (inbound or quick-reply). Read receipts incomplete by design. No URL-click, no visits, no revenue. Lives on Broadcast, not loyalty Reports. H-2 batches included. Webhook `statuses[]` still skipped in code until gas. Joe locked Action = reply/button, not store visit.

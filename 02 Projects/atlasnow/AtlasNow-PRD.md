@@ -29,6 +29,7 @@ related:
   - "[[AtlasNow-Loyalty-Decision]]"
   - "[[AtlasNow-Support-Radit-PRD]]"
   - "[[AtlasNow-Broadcast-Meta-Report-PRD]]"
+  - "[[AtlasNow-Free-Activation-PRD]]"
 ---
 
 # AtlasNow — Product Requirements Document
@@ -263,7 +264,7 @@ AtlasNow is not a single operator bag of all clients. It is a **platform of agen
 
 **Super Admin — one login, hats via switcher:** Platform · P2P agency (existing `p2p-labs`) · any other agency (same screens as that agency’s admin). Super Admin may change that agency’s data while switched in. Super Admin does **not** attach a standalone brand to another agency.
 
-**Signup (public):** two doors — **one brand** or **agency**. Terms required. Login stays **off**. They see “we follow up”, not the dashboard. Platform follow-up: new agency, standalone brand, upgrade application. Agency follow-up: only *their* brands waiting for login.
+**Signup (public):** two doors — **one brand** or **agency**. Terms + **phone (WhatsApp)** required. Login stays **off** until a human Activates. Pending page includes **click-to-WA** to AtlasNow HQ (they must Send). Platform follow-up: new agency, standalone brand, upgrade application. Agency follow-up: only *their* brands waiting for login. Free journey: [[AtlasNow-Free-Activation-PRD]].
 
 **Upgrade:** standalone brand **applies**; Super Admin **approves** (a person, until monetization). New agency tenant; the existing brand remains the first merk under it. Locations and chats do not move to a new store record. Rejected = stay standalone.
 
@@ -318,9 +319,18 @@ AtlasNow is not a single operator bag of all clients. It is a **platform of agen
 
 ## 6. Core user journeys
 
-### 6.1 Onboard a brand and locations
+### 6.0 Free activation (locked 2026-09-09)
 
-0. Public signup is either a **standalone brand** or an **agency** (both wait for Super Admin). An agency, once live, adds brands underneath. P2P-operated brands stay under the P2P agency. See §4.3.
+Canonical: [[AtlasNow-Free-Activation-PRD]].
+
+Owner signs up on atlasnow.co (brand + email + **HP** + terms) → pending, login off → **click-to-WA** to AtlasNow HQ (prefill; they must Send; any phone OK) → P2P human Activate (email always; WA session if 24h window open) → contact lands in **P2P Labs** CRM, not the brand’s members → first login → brand mark + max 2 store outlets → **Embedded Signup v4 coexistence** (WhatsApp Business App + Cloud, same **shop** number). WhatsApp pribadi **tidak bisa** jadi nomor toko Cloud — harus **ganti ke WhatsApp Business App dulu**. Silver packaging not in this journey.
+
+**Activation done:** login on + email sent + P2P Labs CRM row.  
+**First value:** join QR live, or green-app number connected.
+
+### 6.1 Onboard a brand and locations (Gold / Control — listings)
+
+0. Public signup is either a **standalone brand** or an **agency** (both wait for Super Admin). An agency, once live, adds brands underneath. P2P-operated brands stay under the P2P agency. See §4.3. Free path without Google: §6.0.
 1. P2P Admin or the owning agency creates / activates the brand tenant and records legal/business authorization.
 2. Admin connects Google OAuth and validates accessible accounts.
 3. AtlasNow lists authorized GBP locations.

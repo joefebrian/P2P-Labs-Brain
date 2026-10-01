@@ -222,7 +222,7 @@ Approve menyimpan stamp/hadiah di database **dulu**. Lalu Atlas minta Meta kirim
 
 ## Cloud API number = nomor bisnis WABA
 
-Bukan WA pribadi, bukan QR WAHA/WA Web. Satu nomor **WhatsApp Business Platform** (Cloud API) per merek = HQ. Nomor itu biasanya **tidak** dipakai di app WA biasa bersamaan. Tidak boleh nomor yang sama Cloud API + WAHA.
+Bukan QR WAHA/WA Web. Satu nomor **WhatsApp Business Platform** (Cloud API) per merek = HQ. **Boleh** nomor yang sama dengan WhatsApp **Business App** (hijau) — coexistence, [[AtlasNow-Free-Activation-PRD]]. WhatsApp **pribadi** tidak bisa jadi nomor Cloud: owner **harus ganti ke WhatsApp Business App dulu**. **Tidak boleh** nomor yang sama Cloud API + WAHA.
 
 ## Fraud (locked)
 

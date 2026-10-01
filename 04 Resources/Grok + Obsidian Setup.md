@@ -3,9 +3,26 @@
 #resource
 
 ## Vault path
+Same notes on both computers. GitHub: https://github.com/joefebrian/P2P-Labs-Brain
+
 ```
-/Users/joefebrian/Downloads/Working Desk/Obsidian/mygrok
+Mac:     /Users/joefebrian/Downloads/Working Desk/Obsidian/mygrok
+Windows: C:\Users\USER\Documents\Obsidian\mygrok
 ```
+
+The Windows app code stays at `C:\Users\USER\Grok\apps\AIOSCreator`. That folder is not the vault. `C:\Users\USER\Grok` is the old Windows vault and still has a copy of older notes. Open `Documents\Obsidian\mygrok` instead.
+
+## Sync
+On the machine you edited, from the vault folder:
+
+```bash
+git pull --rebase
+git add -A
+git commit -m "Update vault notes"
+git push
+```
+
+Then on the other computer, `git pull`. Pull before you edit so the two copies do not fork again. Do not put API keys in the vault.
 
 ## Open Grok inside vault
 ```bash
