@@ -18,6 +18,46 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **Language (locked 2026-09-06):** product surface = **workspace**, never **meja**. Physical table (QR di meja toko) stays meja.
 
+### 2026-10-03 (footer social placement)
+- Changed: Public footer one row on lg: copyright left; social + legal right (divider, smaller 24px marks). Mobile stacks credit → icons → links. Live.
+- Why: Joe: penempatan logo sosial di footer ga enak.
+- Next: Uncommitted. Hard refresh.
+
+### 2026-10-03 (social icons hover color)
+- Changed: Default public social marks = one black plate / white glyph (`*-mono.png` for IG, FB, TikTok; Threads + X already that). Hover/focus shows brand color (IG gradient, FB blue, TikTok cyan/magenta). X + Threads stay. HQ custom upload still grayscale → color on hover. Live footer + login.
+- Why: Joe: default samain biar rapi; warna sesuai icon cuma di hover.
+- Next: Uncommitted. Hard refresh.
+
+### 2026-10-03 (social icons)
+- Changed: Public social marks = Joe’s PNGs in `public/brand/social/` (Instagram, Facebook, Threads, TikTok, X). `PublicSocialLinks` uses them when HQ hasn’t uploaded a custom icon. Live footer + login.
+- Why: Joe: ganti icon sosial dengan 5 file itu.
+- Next: Uncommitted. Hard refresh.
+
+### 2026-10-03 (privacy justify)
+- Changed: Legal article body (`/privacy`, also `/terms` `/cookies` `/data-deletion`) `text-justify`.
+- Why: Joe: rata kanan kiri di atlasnow.co/privacy.
+- Next: Uncommitted.
+
+### 2026-10-03 (PT only in footer)
+- Changed: Visible UI: `PT Sorak Digital Media` only in footer `© YEAR AtlasNow · A P2P Labs (PT Sorak Digital Media) product`. Login under-logo `A P2P Lab product`. About `Made by P2P Labs` + `P2P Labs · hello@…`. Invoices / JSON-LD `legalName` still the PT (not on-page copy).
+- Why: Joe: PT di footer aja; sisanya jangan ada.
+- Next: Uncommitted. Hard refresh `/login`.
+
+### 2026-10-03 (public product credit short)
+- Changed: Login under-logo + public footer (home/login/signup/AppShell) → `A P2P Lab product` / `© YEAR AtlasNow · A P2P Lab product`. About still `Made by P2P Labs (PT Sorak Digital Media)`. Legal operator + invoices + JSON-LD still P2P Labs / PT Sorak Digital Media.
+- Why: Joe screenshot `/login` — drop PT from this credit line; Lab singular.
+- Next: Uncommitted. Refresh `/login` if the old string is cached.
+
+### 2026-10-03 (homepage design restored)
+- Changed: Live homepage layout back to original: problem **carousel**, body as `<p>`, no FactTable, no numbered lists. Copy back to marketing length. ID product-surface **meja** → **workspace**; physical QR di meja kept. Skip link / llms.txt / logo WebP / meta still on.
+- Why: Joe: design berantakan after GEO stuffing (ol + tables + 10-card grid + “October 2026”).
+- Next: GEO CIT-02/03 will drop on next audit. Design wins. Uncommitted.
+
+### 2026-10-03 (SEO/AEO/GEO homepage)
+- Changed: Homepage GEO sixth-pass live (FactTable + 40-word named-subject ledes, numbered `<ol>`). geo.new `aud_314326b647b7475e30046cdc071f93f3` (rules v22, 08:08Z). Original 13: ACC-20, CIT-02, CIT-03, IMG-04, CORE-02, CORE-04, ENT-02, IMG-06, IMG-07, CIT-05, PERF-14, A11Y-05, CIT-08 **pass**. CIT-02 avg 63 (best 71: “Do owners already feel this at the brand?”). CONT-03 recovered. GEO technical 100, Basic SEO 100.
+- Why: geo.new audit 2026-10-03 started 76/100 with 13 open actions. Fifth-pass CIT-03 stuck at 68; problem H2 named-subject + answer variant raised structure to 85 / total 71.
+- Next: ENT-08 fail is Moz DA 1 — earn links over weeks. Leave PERF-12 (lab TTFB 805 ms) and PERF-15 (14 scripts). Do not add FAQPage (SCH-17 out of original 13). Uncommitted.
+
 ### 2026-09-19 (Meta App Review approved)
 - Changed: Submission **19 Sep 2026 23:41 GMT+7** approved. New Advanced Access: `pages_manage_metadata`, `pages_messaging`, `instagram_manage_messages`. Renewed: `whatsapp_business_messaging`, `pages_show_list`, `business_management`, `public_profile`, `whatsapp_business_management`, `instagram_basic`. **Did not** request `pages_read_engagement`. App **AtlasNow** `1551959122621683` still **Unpublished**.
 - Why: Joe screenshot App Review. Last Policy 1.6 resubmit landed.
