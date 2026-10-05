@@ -18,7 +18,77 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **Language (locked 2026-09-06):** product surface = **workspace**, never **meja**. Physical table (QR di meja toko) stays meja.
 
-### 2026-10-03 (footer social placement)
+### 2026-10-05 (coming soon last)
+- Changed: Google Business Profile and Google Ads Local Campaign are the last two system cards, so they sit on the bottom row.
+- Why: Joe wanted Coming soon at the end, below the live systems.
+- Next: Hard refresh atlasnow.co.
+
+### 2026-10-05 (plain problem slides)
+- Changed: Problem heading is “Owners already feel the complexity. AtlasNow gives them one desk to run every outlet.” All 10 slides rewritten in plainer EN and ID. ID QR card still says QR meja / QR di meja. Product surface stays workspace.
+- Why: Joe asked for language that is very easy to understand, and for that new heading.
+- Next: Hard refresh atlasnow.co.
+
+### 2026-10-05 (systems row of four and three)
+- Changed: Removed the systems lede. Seven cards sit four on the first row and three on the second.
+- Why: Joe did not want that sentence, and did not want Revenue attribution alone.
+- Next: Hard refresh atlasnow.co.
+
+### 2026-10-05 (seven homepage systems)
+- Changed: What AtlasNow is is seven cards: conversations, loyalty, Google Business Profile, Google Ads Local Campaign, WhatsApp Broadcast, TikTok GO voucher redemption, revenue attribution. GBP and Ads carry Coming soon / Segera hadir.
+- Why: Joe asked the block to detail those seven, with the two Google items marked coming soon.
+- Next: Hard refresh atlasnow.co.
+
+### 2026-10-05 (homepage systems section)
+- Changed: “What AtlasNow is” title is “Five systems. One desk for every location.” Lede names the five systems without the crawler sentence. Bottom two cards sit centered. ID uses workspace.
+- Why: Joe asked to polish that block.
+- Next: Hard refresh atlasnow.co.
+
+### 2026-10-05 (homepage lede features)
+- Changed: Hero lede lists customer conversations, loyalty customer, Google Business Profile, Ads local campaigns, WhatsApp Broadcast and TikTok GO voucher redemption. ID keeps workspace.
+- Why: Joe revised that operating-system sentence.
+- Next: Hard refresh atlasnow.co.
+
+### 2026-10-05 (homepage proof line)
+- Changed: Hero proof is “Every outlet connected. Every customer managed. Every opportunity visible from HQ.” ID: Setiap outlet tersambung. Setiap pelanggan dikelola. Setiap peluang terlihat dari HQ.
+- Why: Joe replaced the loyalty-for-one-brand line.
+- Next: Hard refresh atlasnow.co.
+
+### 2026-10-05 (hero eyebrow and Demand highlight)
+- Changed: Eyebrow is “Multi-location system operations” (ID: Operasi sistem multi-lokasi). Demand highlight has a little more gap after More and padding inside the mint box.
+- Why: Joe asked to rename the eyebrow and give the Demand mark some space.
+- Next: Hard refresh atlasnow.co.
+
+### 2026-10-05 (homepage Book Demo)
+- Changed: Hero line is “Connect WhatsApp, Instagram, Facebook Messenger, & TikTok Message into one INBOX” (ID: Sambungkan … ke satu INBOX). Hero button is Book Demo → Google appointment schedule. Header Sign up / Open AtlasNow unchanged.
+- Why: Joe asked for that inbox line and to replace the hero Open AtlasNow button with Book Demo.
+- Next: Hard refresh atlasnow.co.
+
+### 2026-10-04 (homepage hero two lines)
+- Changed: EN and ID lede break after “Google” from lg up, so that paragraph is two lines. Narrow screens stay one flowing paragraph.
+- Why: Joe asked for that operating-system sentence to sit on two lines.
+- Next: Hard refresh.
+
+### 2026-10-04 (homepage hero)
+- Changed: EN hero is the revenue-ops lockup: eyebrow, Optimize Every Outlet / Capture More Demand, operating-system lede, channel line. Centered. ID uses the same meaning with workspace.
+- Why: Joe sent the hero to put on the homepage.
+- Next: Hard refresh atlasnow.co. ID locale shows the Indonesian lede.
+
+### 2026-10-04 (inbox image retention)
+- Changed: Workspace setting on Chat apps: keep inbox photos 30 days (default), 14 days, or 7 days. A scheduler deletes the file; chat text stays; purged rows are not downloaded again. Privacy and Terms state the same periods.
+- Why: Joe wants image files removed after a month, with 14-day and 7-day choices, written into the legal pages.
+- Next: Settings → Chat apps. Public /privacy and /terms.
+
+### 2026-10-04 (inbox Messenger and Instagram images)
+- Changed: Messenger and Instagram image attachments download from the Meta CDN at webhook time (Page token for Instagram) and show in the same thread photo slot as WhatsApp HQ. Non-CDN urls are ignored.
+- Why: Joe asked for the WhatsApp photo fix on Messenger and Instagram too.
+- Next: Reload Inbox. Photos already stored only load if the CDN url in the webhook has not expired.
+
+### 2026-10-04 (inbox WhatsApp image)
+- Changed: WhatsApp HQ image messages store jpeg/png/webp on the message row and the thread shows the photo. Older `[image]` rows fetch once from the Cloud media id.
+- Why: Joe sent a test photo; the bubble only showed the text `[image]`.
+- Next: Reload Inbox and open the chat. `[unsupported]` is still a Meta type with no file.
+
+
 - Changed: Public footer one row on lg: copyright left; social + legal right (divider, smaller 24px marks). Mobile stacks credit → icons → links. Live.
 - Why: Joe: penempatan logo sosial di footer ga enak.
 - Next: Uncommitted. Hard refresh.
