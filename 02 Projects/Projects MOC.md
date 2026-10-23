@@ -9,7 +9,7 @@ Map of active work. One vault on both computers. Notes sync through GitHub [P2P-
 - [[02 Projects/WaveLead|WaveLead]] — WhatsApp Channels growth · final beta, feature freeze until 2026-10-20 · [wavelead.org](https://wavelead.org)
 - [[02 Projects/animaji.studio|animaji.studio]] — PT Animaji Studio Internasional · `/Users/joefebrian/Downloads/Working Desk/animaji.studio`
 - [[02 Projects/affiliate-video-tool|affiliate-video-tool]] — internal lab · `/Users/joefebrian/Downloads/Working Desk/plugins`
-- [[02 Projects/P2P Labs|P2P Labs]] — company / vision umbrella · brand [[p2plabs/P2P-Labs-Brand]]
+- [[02 Projects/P2P Labs|P2P Labs]] — company / vision umbrella · brand [[p2plabs/P2P-Labs-Brand]] · ERP internal (lokal, belum GitHub, belum deploy) [[p2plabs/ERP-P2P-Labs-HR-PRD]]
 
 ## Paused / later
 -
@@ -26,7 +26,8 @@ P2P Labs (company)
  ├── AIOSCreator / CreatorOS (app on the Windows PC)
  ├── WaveLead (wavelead.org · final beta)
  ├── animaji.studio
- └── affiliate-video-tool (internal R&D)
+ ├── affiliate-video-tool (internal R&D)
+ └── ERP P2P Labs (internal HR · lokal · belum deploy · `erp.p2plabs.asia` nanti)
 ```
 
 Library, not a product: [[UGC Playbook/00 UGC Playbook – Index|UGC Playbook]]

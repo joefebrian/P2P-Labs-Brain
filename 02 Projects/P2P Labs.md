@@ -15,6 +15,7 @@ Creator Economy SaaS Operating System — music, video, image, affiliate, API in
 - **Flagship products:** [[02 Projects/atlasnow|AtlasNow]] (`atlasnow.co`) + [[02 Projects/AtlasNexus|AtlasNexus]] (`atlasnexus.app`) + [[02 Projects/WaveLead|WaveLead]] (WhatsApp Channel discovery / follow intent · [repo](https://github.com/joefebrian/wavelead))
 - **Internal lab:** [[02 Projects/affiliate-video-tool|affiliate-video-tool]]
 - **Public site:** https://p2plabs.asia on its **own** VPS (not AtlasNow) · GitHub **private** [joefebrian/p2plabs.asia](https://github.com/joefebrian/p2plabs.asia)
+- **Internal ERP (lokal 2026-10-22):** [[p2plabs/ERP-P2P-Labs-HR-PRD|modul HR]] · folder `erp-p2p-labs` · `http://127.0.0.1:8766/` · host nanti `erp.p2plabs.asia` · kandidat PC rumah di IP statis `103.145.240.52` · bukan kotak 1 GB newsroom · belum GitHub · belum deploy
 - **Brand (locked 2026-09-02):** [[p2plabs/P2P-Labs-Brand|P2P-Labs-Brand]] · [[p2plabs/P2P-Labs-Design-System|design system]] · PDF in `02 Projects/p2plabs/`
 
 ## Ops — p2plabs.asia VPS (2026-09-01)
@@ -60,8 +61,13 @@ Password login is **off**. Provider panel password was pasted in chat — rotate
 - [ ] Align AtlasNexus roadmap dengan capability dari affiliate-video-tool
 - [ ] Definisikan 1 wedge GTM (mis. brand campaign + product detect)
 - [ ] Satu source of truth: keputusan produk dicatat di AtlasNexus note
+- [ ] Joe isi pertanyaan terbuka di [[p2plabs/ERP-P2P-Labs-HR-PRD]] (kota kerja, pola 5 atau 6 hari, kelas risiko JKK, komponen slip) sebelum slip sungguhan
+- [ ] Pilih mesin ERP terpisah. Jangan pasang di `116.206.196.6`
 
 ## Decisions log
+### 2026-10-22
+- ERP internal P2P Labs, modul Human Resource, host `erp.p2plabs.asia`, di mesin lain. v1: karyawan, kontrak, absensi, cuti, lembur, slip yang dikunci manusia, transfer bank manual. Bukan klon Talenta. Spesifikasi: [[p2plabs/ERP-P2P-Labs-HR-PRD]].
+
 ### 2026-08-04
 - Second brain vault di Obsidian `mygrok` dihubungkan ke Grok.
 - AtlasNexus masuk vault sebagai project utama (sebelumnya hanya di browser).
@@ -69,6 +75,7 @@ Password login is **off**. Provider panel password was pasted in chat — rotate
 ## Links
 - [[p2plabs/P2P-Labs-Brand]]
 - [[p2plabs/P2P-Labs-Design-System]]
+- [[p2plabs/ERP-P2P-Labs-HR-PRD]]
 - [[02 Projects/atlasnow|AtlasNow]]
 - [[02 Projects/AtlasNexus|AtlasNexus]]
 - [[02 Projects/affiliate-video-tool|affiliate-video-tool]]

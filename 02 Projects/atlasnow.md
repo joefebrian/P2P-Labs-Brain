@@ -18,6 +18,58 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **Language (locked 2026-09-06):** product surface = **workspace**, never **meja**. Physical table (QR di meja toko) stays meja.
 
+**WhatsApp Commerce (proposed 2026-10-23):** [[AtlasNow-WhatsApp-Commerce-PRD]] — pilot YOLA FUN. Katalog + cart WhatsApp, order, link bayar di gateway merchant, atribusi cabang. Belum live. Uang tetap [[AtlasNow-Monetization-PRD]]. Nomor tetap [[AtlasNow-WhatsApp-Decision]].
+
+### 2026-10-23 (Commerce production deploy)
+- Changed: Commerce Slice 2 from `b7ba45e` is on https://atlasnow.co. Commerce URL: https://atlasnow.co/commerce. OAuth callback: https://atlasnow.co/api/commerce/meta/callback. Five commerce migrations applied after a verified dump. Internal brand AtlasNow Commerce QA (`atlasnow-commerce-qa`) is under P2P Labs. Catalog sync, poll, checkout, and payment stay off. Draft PR #1 is not merged.
+- Why: Founder-controlled Meta connection testing on the production domain, without a staging subdomain and without YOLA FUN.
+- Next: Joe adds the commerce callback in the Meta app and enters credentials himself. Do not start OAuth, do not add `catalog_management`, do not start Slice 3.
+
+### 2026-10-23 (Commerce worker race)
+- Changed: A poll worker rechecks the product before it marks a batch synced. The internal poll route stays off. Commit `b7ba45e` on draft PR https://github.com/joefebrian/atlasnow/pull/1. Not merged. Live sync stays off.
+- Why: A merchant can edit the price while Meta is still answering.
+- Next: Do not start Slice 3. Do not turn on live catalog sync or the poll switch.
+
+### 2026-10-23 (Commerce final hardening)
+- Changed: A late catalog batch is not applied when the price or catalog changed. Historical Meta ids stay in the database and are hidden after a catalog switch. Submitted batches can be polled without the browser. Draft PR https://github.com/joefebrian/atlasnow/pull/1 is at `b14497d`, with the Actions workflow in `6a7df29`. Not merged. Live sync stays off.
+- Why: The review asked for those checks before merge.
+- Next: Finish the push after the workflow scope is granted. Do not start Slice 3. Do not turn on live catalog sync. Do not apply the loyalty or broadcast schema diff.
+
+### 2026-10-23 (Commerce review fixes)
+- Changed: Catalog batch success waits for Meta processing. A new Meta login clears the old catalog until it is checked again. Commit `f23ef18` on draft PR https://github.com/joefebrian/atlasnow/pull/1. Not merged. Live sync stays off.
+- Why: The review asked for those checks before merge.
+- Next: Wait for another review. Do not start Slice 3. Do not turn on live catalog sync.
+
+### 2026-10-23 (Commerce draft PR)
+- Changed: Targeted commerce tests re-run, 28 passed. Docs note the draft review rule. Pull request https://github.com/joefebrian/atlasnow/pull/1 stays unmerged.
+- Why: The reviewer will read the draft. Live Meta sync stays off.
+- Next: Wait for review. Do not start Slice 3.
+
+### 2026-10-23 (Commerce handoff docs)
+- Changed: Added `docs/AI_DEV_STATUS.md`, `docs/COMMERCE_ARCHITECTURE.md`, and `docs/DECISION_LOG.md`. Commerce is on branch `feature/commerce-meta-catalog` (`c045788`). PR https://github.com/joefebrian/atlasnow/pull/1. Not merged.
+- Why: Joe wants a reviewer to read status from the repo instead of a fresh explanation each time.
+- Next: Review the PR. Do not start Slice 3. Do not turn on live catalog sync.
+
+### 2026-10-23 (Commerce slice 2 catalog connection)
+- Changed: Commerce can start an official Meta login, store the token encrypted, and link a discovered catalog and WhatsApp number to one merchant. Sync preview, idempotent jobs, and permission errors are in. Live catalog push, checkout, and payment stay off.
+- Why: Joe accepted slice 1 and asked for the connection manager before any checkout.
+- Next: Founder adds `catalog_management` and the callback URL on the Meta app, then puts the App ID and secret in Settings → API. Do not turn on `COMMERCE_CATALOG_SYNC_ENABLED` until a catalog permission check passes. Apply the three commerce migrations on the server only when this ships.
+
+### 2026-10-23 (Commerce slice 1 hardening)
+- Changed: Product list is searchable and filterable. Photo upload, outlet search with Select all, and View / Edit / Archive. Archived products stay archived. SKU unique per merchant, case-insensitive. IDR stays a whole number. Readiness cards stay Not connected even if a saved flag says otherwise. Detail shows each outlet as available or unavailable here.
+- Why: Joe asked to harden the product master before any Meta sync or WhatsApp checkout.
+- Next: Apply `20261023120000_commerce_products` and `20261023180000_commerce_image_sku` on the server only when this ships. Do not connect WhatsApp checkout, Meta Catalog, or a payment gateway.
+
+### 2026-10-23 (WhatsApp Commerce product master)
+- Changed: Workspace page Commerce. Brand admin can create, edit, and archive products with variants, IDR price, and outlet availability. WhatsApp, Meta Catalog, and payment stay Not connected. No checkout and no live catalog sync.
+- Why: First slice of [[AtlasNow-WhatsApp-Commerce-PRD]]. AtlasNow is the product source of truth. Cart is not a sale.
+- Next: Apply migration `20261023120000_commerce_products` on the server when this ships. Do not connect a gateway or `catalog_management` until Joe locks the rail and publishes the scope.
+
+### 2026-10-23 (WhatsApp Commerce PRD)
+- Changed: Filed v0.1 PRD “Boost Sales with WhatsApp Catalog” into the vault. Working name WhatsApp Commerce. Pilot merchant YOLA FUN. Cart is not payment. AtlasNow is not merchant of record.
+- Why: Joe asked for this as a new module and for the feature to live in Obsidian before build.
+- Next: Pick the first slice. Do not wire a payment gateway or new Meta catalog permission until founder locks the rail and publishes the extra scope.
+
 ### 2026-10-05 (coming soon last)
 - Changed: Google Business Profile and Google Ads Local Campaign are the last two system cards, so they sit on the bottom row.
 - Why: Joe wanted Coming soon at the end, below the live systems.
