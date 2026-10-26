@@ -20,6 +20,131 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **WhatsApp Commerce (proposed 2026-10-23):** [[AtlasNow-WhatsApp-Commerce-PRD]] — pilot YOLA FUN. Katalog + cart WhatsApp, order, link bayar di gateway merchant, atribusi cabang. Belum live. Uang tetap [[AtlasNow-Monetization-PRD]]. Nomor tetap [[AtlasNow-WhatsApp-Decision]].
 
+### 2026-10-26
+- Changed: Conversational commerce M2 QA PostgreSQL adapter on `feature/conversational-commerce-m2`. Implementation `0cdeb608d32b2b661c7d89fddc69dd0282fc1c2c`. CI workflow `280900fd2c7b6c10ed196fc13b0213df27f369d6`. Draft PR https://github.com/joefebrian/atlasnow/pull/3. Actions https://github.com/joefebrian/atlasnow/actions/runs/40251614342. Disposable `atlasnow_cc_qa_*` only. Not applied to production.
+- Why: The schema review was conditionally accepted. The adapter needed a nullable idempotency foreign key, location consistency, BIGINT amounts, provider-scoped live slots, and a fail-closed QA database.
+- Next: Stop. Production migration and deployment need a separate approval. Do not merge PR #1, #2, or #3. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: Conversational commerce M2 schema and QA review on `feature/conversational-commerce-m2`, commit `d5bd07e47bfff1471908b4c978ce1932271944dc`. Draft PR https://github.com/joefebrian/atlasnow/pull/3 stacked on PR #2. Actions https://github.com/joefebrian/atlasnow/actions/runs/40247773374. Documentation only. `prisma/schema.prisma` unchanged. No migration folder.
+- Why: PostgreSQL persistence needs a reviewed schema, claim transaction, and disposable QA database before any adapter is written.
+- Next: Stop. Wait for approval before editing the Prisma schema, creating a migration, or writing the SQL adapter. Do not merge PR #1, #2, or #3. Do not deploy. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: Conversational commerce M1C.2 pre-persistence gate on `feature/conversational-commerce-m1a`, commit `18a965c71c5a26f7a595b8245720aa0f1fd2cf3c`. Draft PR https://github.com/joefebrian/atlasnow/pull/2. Actions https://github.com/joefebrian/atlasnow/actions/runs/40246864273. In-memory only. No migration, route, gateway, or Flow.
+- Why: A transient provider error could close the idempotency key after a booking was already committed, and a shared booking or transaction reference could resolve to another tenant.
+- Next: Stop. Do not start a SQL adapter, a webhook route, a gateway, or YOLA FUN onboarding until a separate review.
+
+### 2026-10-26
+- Changed: Conversational commerce M1C.1 orchestration boundary hardening on `feature/conversational-commerce-m1a`, commit `f57506298781d549a2232c41843ed67266b39831`. Draft PR https://github.com/joefebrian/atlasnow/pull/2. Actions https://github.com/joefebrian/atlasnow/actions/runs/40245579152. In-memory only. No migration, route, gateway, or Flow.
+- Why: A losing idempotency claim could still call the provider, a Commerce writer could submit a forged paid event, and a crash after the claim left no envelope for recovery.
+- Next: Stop. Do not start a SQL adapter, a webhook route, a gateway, or YOLA FUN onboarding until a separate review.
+
+### 2026-10-26
+- Changed: Conversational commerce M1C port-backed orchestrator on `feature/conversational-commerce-m1a`, commit `0ee2aacec34f63d1ca7e619aab5651b822f09373`. Draft PR https://github.com/joefebrian/atlasnow/pull/2. Actions https://github.com/joefebrian/atlasnow/actions/runs/40221202475. In-memory ports only. No migration, route, gateway, or Flow.
+- Why: The orchestrator kept a second copy of bookings, payments, and idempotency beside the repository. M1C makes the ports the source of truth and keeps provider calls outside the atomic write.
+- Next: Stop. Do not start a SQL adapter, a webhook route, a gateway, or YOLA FUN onboarding until a separate review.
+
+### 2026-10-26
+- Changed: Conversational commerce M1B.1 persistence contract correction on `feature/conversational-commerce-m1a`, commit `66cd7c6ba100740342981fda4ea9e28217c0ec42`. Draft PR https://github.com/joefebrian/atlasnow/pull/2. Actions https://github.com/joefebrian/atlasnow/actions/runs/40218702460. No migration, route, gateway, or Flow.
+- Why: Repository results could be mutated in place, a reservation could disagree with its connection, and policy and webhook identity were wider than one merchant surface or one connection.
+- Next: Stop. Do not start M1C. Do not merge PR #1 or PR #2. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: Conversational commerce M1B persistence ports on `feature/conversational-commerce-m1a`. Code `05d82d0faab0d28de23cc8a89b44d960f0bd6143`. CI `903aa40050097b0c28267e9a22f554930abdb283`. Schema sketch only. Draft PR https://github.com/joefebrian/atlasnow/pull/2. No migration, route, gateway, or Flow.
+- Why: The orchestrator needs durable boundaries for bookings, payments, webhooks, and attribution before any table is created.
+- Next: Stop. Do not start M1C. Do not merge PR #1 or PR #2. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: Conversational commerce M1A.2 on `feature/conversational-commerce-m1a`, commit `d6aefd64c05d096f3ac4c0777c42ca2532596468`. Timeout reconciliation uses the original provider and request. Each payment attempt has its own ledger. Draft PR https://github.com/joefebrian/atlasnow/pull/2. No migration, route, gateway, or Flow.
+- Why: A lookup against a different provider could treat a committed timeout as absence, and one transaction ledger mixed independent payment attempts.
+- Next: Stop. Do not start M1B. Do not merge PR #1 or PR #2. YOLA FUN stays NO-GO.
+
+### 2026-10-25
+- Changed: Conversational commerce M1A.1 contract hardening on `feature/conversational-commerce-m1a`. Contract commit `8b9bba557b932993f07ec34283ec5b2cb254aabf`. CI commit `0adef948fa5e3f81ece04f28f6fd2df1847675b9`. Draft PR https://github.com/joefebrian/atlasnow/pull/2. A timeout stays pending until lookup or a documented idempotency guarantee. Payment proof must match the stored attempt. No migration, route, gateway, or Flow.
+- Why: A timeout or an evidence label could otherwise authorize a second booking or a paid status.
+- Next: Stop. Do not start M1B, persistence, webhooks, or payments. Do not merge PR #1 or PR #2. YOLA FUN stays NO-GO.
+
+### 2026-10-25
+- Changed: Conversational commerce M0 contracts and M1A in-memory orchestrator on `feature/conversational-commerce-m1a`, commit `53989bb21600a1d647aa869f2fc1ee2c3083870d`. Draft PR https://github.com/joefebrian/atlasnow/pull/2 targets `feature/commerce-meta-catalog`. No migration, no route, no gateway, no Flow, no catalog write.
+- Why: Booking, payment, and attribution need a provider-neutral contract before any table or live adapter. Catalog commerce stays the product master.
+- Next: Stop. Persistence, webhooks, and provider clients need a separate review. Do not merge PR #1 or PR #2. Do not onboard a pilot from this slice.
+
+### 2026-10-25
+- Changed: Read-only YOLA FUN onboarding audit. Production has no tenant, location, commerce connection, or WABA row for YOLA FUN. The public site still has no SKU or price. Verdict is NO-GO for live catalog onboarding. QA catalog and the test line were not reused. No product, flag, OAuth, or payment change.
+- Why: Admission tickets and party or event services are restricted or prohibited on Meta commerce surfaces that AtlasNow can use. Approved-seller status is unknown.
+- Next: Merchant confirms legal entity, Meta Business admin, their own WABA and catalog, and exact offers. Do not create a workspace or list a ticket.
+
+### 2026-10-25
+- Changed: Imported one QA product, `ATLASNOW-QA-SHAPE-001`, from catalog `1649727826536046` into tenant `commerceqa20261023tenant`. Price `28780`, Meta id `28730199909979244`, review `UNKNOWN`, eligibility `UNKNOWN`. A second import did not create or overwrite a row. Import flags were then removed. Discovery stays on for that tenant. Image stayed `sha256:027689fb313384f8511a6c5ce85681010692cb4ca31cc09b57411ee840d88bef`. Backup `/root/atlasnow-backups/atlasnow-20261025T150250Z-pre-qa-import.dump` sha256 `d73398502aef87a1fb56efb2874fdd9865b1c4db836a3d3bd4e2859811ab797f`.
+- Why: Founder approved one QA import. The write is local. Meta was not updated.
+- Next: Do not enable sync, polling, order capture, or payments. Do not import another SKU without approval.
+
+### 2026-10-25
+- Changed: Deployed the price parser hotfix. Running image `sha256:027689fb313384f8511a6c5ce85681010692cb4ca31cc09b57411ee840d88bef` (`atlasnow-atlas:price-f686143`, commit `f68614367c40e7f921519f4700c00e0f7728cfd8`). QA discovery still on for `commerceqa20261023tenant`. Import stays off. Live read of catalog `1649727826536046` parsed `IDR28,780` as `28780`. Product master stayed empty. PR #1 was not merged.
+- Why: Founder approved this image. The previous parser left the QA price null.
+- Next: Do not import `ATLASNOW-QA-SHAPE-001` until a separate approval. Rollback image is `atlasnow-atlas:rollback-pre-price-f686143` (`sha256:0beb661d88142a2fd1b00a379bb38c94db036c035b56de8c6a0e497b2e1d7f68`). Leave the additive columns in place.
+
+### 2026-10-25
+- Changed: Price parser accepts `IDR28,780`. Commit `f68614367c40e7f921519f4700c00e0f7728cfd8` on draft PR #1. Actions run https://github.com/joefebrian/atlasnow/actions/runs/40188477743 passed. Staged image `atlasnow-atlas:price-f686143` digest `sha256:027689fb313384f8511a6c5ce85681010692cb4ca31cc09b57411ee840d88bef` is not running. Production stays on `sha256:0beb661d88142a2fd1b00a379bb38c94db036c035b56de8c6a0e497b2e1d7f68` with QA discovery still on.
+- Why: The live QA catalog price was `IDR28,780`, which the parser did not read as 28780.
+- Next: Do not boot the staged image until a separate approval. Do not enable import.
+
+### 2026-10-25
+- Changed: Enabled read-only Meta catalog discovery for `commerceqa20261023tenant` only. Same image `sha256:0beb661d88142a2fd1b00a379bb38c94db036c035b56de8c6a0e497b2e1d7f68`. Import, sync, polling, order capture, and payments stay unset. QA catalog `1649727826536046` lists SKU `ATLASNOW-QA-SHAPE-001` as Meta-only. Price label is `IDR28,780`. Parsed `unitPriceIdr` is null. Product master was not written.
+- Why: Founder authorized discovery for that tenant. Compose injects only keys listed on the atlas service, so the two variables were added there and in `.env`.
+- Next: Do not import, sync, or enable payments. A price parser change needs its own approval before any import of this SKU.
+
+### 2026-10-25
+- Changed: Deployed Slice 2.5 to production. Running image `sha256:0beb661d88142a2fd1b00a379bb38c94db036c035b56de8c6a0e497b2e1d7f68` (`atlasnow-atlas:slice25-465904984325`, commit `465904984325a62c92b3008e9b04787e235af4b1`). Migrate applied only `20261024200000_commerce_catalog_import` and `20261024220000_commerce_catalog_feed`. `20261024180000_commerce_orders` was not applied. History is 39 finished. Commerce switches stay unset. PR #1 was not merged.
+- Why: Founder authorized this commit and this image. The entrypoint migrates on boot.
+- Next: Do not enable discovery, import, sync, order capture, or payments. The read-only Meta catalog QA pilot needs its own authorization. Do not `docker compose up --build` from `/opt/atlasnow`; that tree is not this commit. Code rollback after this migrate is `atlasnow-atlas:rollback-app-pre-slice25-4659049` (`sha256:61817fc4acd8cf1121c76c9be68934ddd3737f2a3479fb58c47d0612c0e7e001`), the previous app plus the two new folders. The pre-migrate image `sha256:c57dd5418ebdf1e40649a66ec536dc2be2ad2bdc29ff9a09bf69fcd7643ede9c` cannot boot against the new history.
+
+### 2026-10-25
+- Changed: Slice 2.5 preflight only. Approved commit `465904984325a62c92b3008e9b04787e235af4b1`. Live image remains `sha256:c57dd5418ebdf1e40649a66ec536dc2be2ad2bdc29ff9a09bf69fcd7643ede9c`, also tagged `atlasnow-atlas:rollback-pre-slice25-4659049`. New dump `/root/atlasnow-backups/atlasnow-20261025-pre-slice25-4659049.dump` sha256 `d3d5164037317dc3985f0e02d11575860304364d1e6d3c530ac0fa345e1b3dd6`. Staged image `atlasnow-atlas:slice25-465904984325` digest `sha256:0beb661d88142a2fd1b00a379bb38c94db036c035b56de8c6a0e497b2e1d7f68` is not running. It has 39 migration folders and omits `20261024180000_commerce_orders`. Not booted.
+- Why: Release preparation needed a backup and a checked image before any migrate-on-boot.
+- Next: Wait for Founder authorization that names this commit. Do not start the staged image. Do not set a commerce switch.
+
+### 2026-10-25
+- Changed: Commerce page no longer queries CommerceOrder while order capture is off. Tip `4659049` on `feature/commerce-meta-catalog` (fix `391615e`). Catalog discovery and import are separate tenant gates. A discovery grant does not enable the import POST. The Slice 2.5 image still omits `20261024180000_commerce_orders`. Push run https://github.com/joefebrian/atlasnow/actions/runs/40151615323 passed, including the release database test. Not deployed. Not merged.
+- Why: A Slice 2.5 database has no CommerceOrder table. The page was querying it on every load. A read-only QA pilot must not open import for every merchant.
+- Next: Leave the draft pull request unmerged. Do not rebuild production. Do not set a commerce switch.
+
+### 2026-10-25
+- Changed: Slice 2.5 release gates on `feature/commerce-meta-catalog`, commit `c1abf1a`. Import opens only when the switch is true and the tenant id is listed. Local catalog export stays blocked because radius and unit are not stored. Manifest: `docs/COMMERCE_SLICE_2_5_RELEASE.md`. Push run https://github.com/joefebrian/atlasnow/actions/runs/40150001034 and pull request run https://github.com/joefebrian/atlasnow/actions/runs/40150005334 both passed on that commit. Not deployed. Not merged.
+- Why: A production image would migrate on boot. Order capture stays out of a Slice 2.5 image until Milestone C is approved on its own. The QA import must not open for every merchant.
+- Next: Leave the draft pull request unmerged. Do not rebuild production. Do not set a commerce switch. A live QA import of SKU ATLASNOW-QA-SHAPE-001 still needs a separate approval and starts read-only.
+
+### 2026-10-25
+- Changed: Commerce GitHub Actions now runs the catalog import, feed, and publish tests. Commit `f64502b` on `feature/commerce-meta-catalog`. Push run https://github.com/joefebrian/atlasnow/actions/runs/40149503443 passed. The `gh` login still cannot edit workflow files. The update went through the GitHub connection that can. Not deployed. Not merged.
+- Why: The review required a new green run that actually lists the five catalog tests. The earlier run on `089bb76` only ran the old list.
+- Next: Leave the draft pull request unmerged. Do not rebuild production.
+
+### 2026-10-25
+- Changed: Catalog file review on `feature/commerce-meta-catalog`, commit `089bb76`. Commerce files match the successful QA feed. Local files need city, country, region, a circle origin, a radius, and unit KM or MI. An empty catalog type is unverified. Preview separates product-data blockers from execution blockers and still does not send. Not deployed. Not merged.
+- Why: Address plus coordinates matched the Meta upload error for SKU ATLASNOW-QA-SHAPE-001. Radius is not stored, so the export route still cannot emit a local file. The three pending migrations stay off production. Order capture remains a separate migration.
+- Next: Leave the draft pull request unmerged. The catalog tests are already in GitHub Actions as of `f64502b`. Do not rebuild production. Do not turn catalog sync on. A live QA import still needs a separate approval and starts read-only.
+
+### 2026-10-24 (Catalog file and publish preview)
+- Changed: Commerce can preview a Meta CREATE or UPDATE and download a catalog file. Commit `28a34c3` on `feature/commerce-meta-catalog`. Live sync stays off. The live sync route still does not send. Migration `20261024220000_commerce_catalog_feed` was applied on localhost only. Proposal: `docs/COMMERCE_CATALOG_BIDIRECTIONAL.md`. Not deployed.
+- Why: After import, the merchant needs to see differences, keep the Meta ids, and produce a file for a manual upload. A missing required field stops the file. A local catalog needs one outlet address and coordinates.
+- Next: Review the draft pull request. Do not rebuild production and do not turn `COMMERCE_CATALOG_SYNC_ENABLED` on.
+
+### 2026-10-24 (Meta catalog import)
+- Changed: Commerce can list the connected Meta catalog and import selected products into the product master. Commit `34f07c7` on `feature/commerce-meta-catalog`. Switch `COMMERCE_CATALOG_IMPORT_ENABLED` stays unset. Migration `20261024200000_commerce_catalog_import` was applied on localhost only. Proposal: `docs/COMMERCE_CATALOG_IMPORT.md`. Not deployed.
+- Why: Linking a catalog stored the catalog id and left the product master empty. Import copies the chosen Meta item, including SKU `ATLASNOW-QA-SHAPE-001`, without pushing back to Meta and without overwriting an existing SKU.
+- Next: Review the draft pull request. Do not rebuild production and do not turn the import switch on until that proposal is accepted.
+
+### 2026-10-24 (WhatsApp order capture)
+- Changed: Inbound WhatsApp catalog orders can be stored as `PENDING_PAYMENT` with payment `NOT_INITIATED`. Commit `022e477` on `feature/commerce-meta-catalog`. Capture switch `COMMERCE_ORDER_CAPTURE_ENABLED` stays unset. Migration `20261024180000_commerce_orders` was applied on localhost only. Proposal: `docs/COMMERCE_ORDER_CAPTURE.md`. Not deployed.
+- Why: The test number ending 2839 already produced a native catalog order. AtlasNow needs to keep that order, check the SKU against the product master, and ignore webhook retries, without taking payment.
+- Next: Review the draft pull request. Do not rebuild production and do not turn the capture switch on until that proposal is accepted. Do not start payment automation.
+
+### 2026-10-24 (Commerce payments decision)
+- Changed: Wrote `docs/COMMERCE_PAYMENTS_PRD.md` and pushed it as `37577fb` on `feature/commerce-meta-catalog`. Shopper checkout is the merchant's own Xendit or Midtrans. AtlasNow fees stay on the Monetization PRD rails. No commission rate. Nothing deployed.
+- Why: Two later models, one shopper path. A payment link visit must not mark an order paid. Merchant production callbacks are not replaced.
+- Next: Review the PRD on the pull request. Do not build the payments slice until that review accepts it. Live processing stays off.
+
 ### 2026-10-23 (Commerce production deploy)
 - Changed: Commerce Slice 2 from `b7ba45e` is on https://atlasnow.co. Commerce URL: https://atlasnow.co/commerce. OAuth callback: https://atlasnow.co/api/commerce/meta/callback. Five commerce migrations applied after a verified dump. Internal brand AtlasNow Commerce QA (`atlasnow-commerce-qa`) is under P2P Labs. Catalog sync, poll, checkout, and payment stay off. Draft PR #1 is not merged.
 - Why: Founder-controlled Meta connection testing on the production domain, without a staging subdomain and without YOLA FUN.
