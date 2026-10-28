@@ -20,6 +20,156 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **WhatsApp Commerce (proposed 2026-10-23):** [[AtlasNow-WhatsApp-Commerce-PRD]] — pilot YOLA FUN. Katalog + cart WhatsApp, order, link bayar di gateway merchant, atribusi cabang. Belum live. Uang tetap [[AtlasNow-Monetization-PRD]]. Nomor tetap [[AtlasNow-WhatsApp-Decision]].
 
+### 2026-10-28
+- Changed: No deploy. Authenticated production QA was not run. The only active super admin is `hello@atlasnow.co` on `p2p-labs`, and this browser is on the sign-in page. Meta configuration `1401943948578182` still stops at the Business Suite login. Webhook fields were re-read and are complete. `WHATSAPP_COEXISTENCE_ENABLED` stays unset. No monitor account was created.
+- Why: Coexistence UAT needs a signed-in module check, a dashboard read of that configuration, an eligible number, and a named alert destination.
+- Next: Sign in as `hello@atlasnow.co`, then open Chat apps, inbox, commerce, loyalty, and YOLA. Sign in to Meta and read configuration `1401943948578182` without editing it.
+
+### 2026-10-28
+- Changed: No deploy and no flag change. Guest journal shows `srv1756392` logging until 10:09:01 UTC and a new kernel at 10:09:32 UTC, with no in-guest shutdown, OOM, or disk-full event. CPU was idle. B3.1 image `sha256:5759d97016ae58c5044b5bc4d2135359972b16ecae4125a0317e16ea3060ff63` came back healthy. YOLA order `YOLA-20261027-000001` is still present. Phone rows were not moved. A signed empty webhook returned 200 and did not add messages.
+- Why: The owner reported the VPS down. The guest was up through 10:09 UTC, then the hypervisor restarted it. Provider power logs are not on the machine. Hostinger guest-agent telemetry was reading memory and process lists, not requesting a shutdown.
+- Next: Authenticated walk of chat apps, inbox, commerce, loyalty, and YOLA still needs a signed-in session. Meta configuration `1401943948578182` still needs a dashboard read before Coexistence UAT. Name an external alert destination before adding a monitor.
+
+### 2026-10-28
+- Changed: No new deploy. Live app `1551959122621683` already subscribes `messages`, `account_update`, `history`, `smb_message_echoes`, `smb_app_state_sync`, and `message_template_status_update` on `https://atlasnow.co/api/webhooks/whatsapp`. `WHATSAPP_COEXISTENCE_ENABLED` stays unset. Embedded Signup config `1401943948578182` and Pages config `2295500691270291` were left as they are. Real Business App onboarding was not run.
+- Why: The webhook fields are ready. Graph cannot show whether configuration `1401943948578182` includes Business App onboarding, and no eligible number was named.
+- Next: Sign in to the Meta App Dashboard and read that configuration before creating another one. Name one Business App number before turning the flag on.
+
+### 2026-10-28
+- Changed: Deployed coexistence and conversation handoff `e9105a062983d7bce781205d4a2a36e45e92764a` (`release/yola-phone-claim`) as image `sha256:5759d97016ae58c5044b5bc4d2135359972b16ecae4125a0317e16ea3060ff63`, tag `atlasnow-atlas:yola-e9105a0`. Migrations `20261028190000_wa_message_source` and `20261028200000_conversation_handoff` applied. `WHATSAPP_COEXISTENCE_ENABLED` stays unset. Caddy, Postgres, and WAHA were not recreated. YOLA and P2P phone rows stayed put. Automation tables stayed empty. No WhatsApp message was sent. Real Business App onboarding was not run.
+- Why: Staff replies need a conversation handoff with its own expiry. The earlier outage was this laptop's Singapore VPN: the VPS captured zero packets from `194.5.82.44`, while `116.206.196.6` got HTTPS 200 and an SSH banner.
+- Next: Name one eligible Business App number before turning the flag on. Confirm webhook fields `history`, `smb_app_state_sync`, `smb_message_echoes`, and `account_update` in the Meta dashboard. Callback stays `https://atlasnow.co/api/webhooks/whatsapp`. Rollback tag `atlasnow-atlas:rollback-pre-coexistence-b31` is `sha256:89aacc333206c10e9ea709fde7fd85951d68fb76fb18d41ef831bf2bad872ed7`. Dump `/root/atlasnow-backups/atlasnow-20261028-pre-coexistence-b31.dump` sha256 `a64fb28645819cb9b68d607fcd298fb436160b2bff7a743ad9268278ff45e7dd`.
+
+### 2026-10-28
+- Changed: Committed coexistence as a second WhatsApp connection method on `release/yola-phone-claim` at `896225e97d9225591fc552da070e1ffd2186f02e`. Same Cloud connector. Launch stays off unless `WHATSAPP_COEXISTENCE_ENABLED=true`. Migration `20261028190000_wa_message_source` adds `WaMessage.source`. Not deployed. `76.13.198.28` did not accept SSH or HTTPS from this network, so production is still image `sha256:89aacc333206c10e9ea709fde7fd85951d68fb76fb18d41ef831bf2bad872ed7`.
+- Why: An eligible WhatsApp Business App number should be able to stay on the phone while AtlasNow uses Cloud API. Existing numbers must not be converted, and a new connection must not turn automation on.
+- Next: Deploy `896225e` when the VPS answers. Leave the coexistence flag unset. Subscribe `history`, `smb_app_state_sync`, `smb_message_echoes`, and `account_update` on app `1551959122621683` without changing the callback. Real Business App onboarding is still unverified.
+
+### 2026-10-28
+- Changed: Deployed workspace automation `6ce841bfb6b6c3dbfff386a55395c62171aa7d21` (`release/yola-phone-claim`) as image `sha256:89aacc333206c10e9ea709fde7fd85951d68fb76fb18d41ef831bf2bad872ed7`. Migration `20261028180000_workspace_automation_runtime` applied. `WorkspaceAutomation`, allowlist, audit, and outbound tables are empty. YOLA and P2P phone rows were not moved. Flags and the allowlist stayed off and empty. No WhatsApp message was sent.
+- Why: Each workspace needs its own inbound, payment, and marketing switches. A missing row stays off, and the YOLA phone stays on the existing flags.
+- Next: The two-recipient pilot still needs named, consented, authorized numbers. Rollback image `atlasnow-atlas:rollback-pre-automation-b2` (`sha256:7715202abd5d7a60b4b0a8d65c4038e562e21cfd6b24ab3551cb97b77b89da85`). Dump `/root/atlasnow-backups/atlasnow-20261028-pre-automation-b2.dump` sha256 `f73e236df6bc939545b9d20ff78a4e212b463d09a671cb12f329a75cc9760f29`.
+
+### 2026-10-28
+- Changed: Deployed phone-ownership guard `9642967788a16cfdd8936440ca3c116a7abc400b` (`release/yola-phone-claim`) as image `sha256:7715202abd5d7a60b4b0a8d65c4038e562e21cfd6b24ab3551cb97b77b89da85`. Migration `20261028160000_workspace_automation` created an empty table. YOLA and P2P phone rows were not moved. Flags and the allowlist stayed off and empty. No WhatsApp message was sent.
+- Why: `ensureWabaPhone` could rewrite `tenantId` and the Cloud connector was saved before that check. A second workspace must not capture an already connected number.
+- Next: The two-recipient pilot still needs named, consented, authorized numbers. Rollback image `atlasnow-atlas:rollback-pre-phone-claim` (`sha256:df3adf6094819b670bc0b80dee9ca3a8270313d435c5dd888d66a0846afcbab1`). Dump `/root/atlasnow-backups/atlasnow-20261028-pre-phone-claim.dump` sha256 `0a8d31d500b60f9e7b76cbc7aef4250b8be994d1f36f5809e3fc41c8553a8911`.
+
+### 2026-10-28
+- Changed: Deployed YOLA pilot checkout `dc670ec65aa5f50ec87080aa6fdfa7b1cc0e2aaf` (`release/yola-pilot-v2`) as image `sha256:df3adf6094819b670bc0b80dee9ca3a8270313d435c5dd888d66a0846afcbab1`. Public demo checkout is `/pay/yola/{token}`. Migration `20261028120000_yola_order_origin` applied. Synthetic order `YOLA-20261027-000001` stays origin synthetic and `PENDING_PAYMENT`; its sandbox session is `SIMULATED_PAID` and it has no ticket. Its two outbound rows are `quarantine`. Flags and the pilot allowlist stay off and empty. No WhatsApp message was sent.
+- Why: A completed Flow needs one sandbox order and a dummy payment link that cannot settle revenue or issue a ticket. The signed-in `/yola` page could not also be the public checkout.
+- Next: Name two consented recipients and authorize each send before `YOLA_PILOT_LINK_SEND_ENABLED` can be turned on. Rollback image `atlasnow-atlas:rollback-pre-pilot-v2` (`sha256:5a976374ee0dde936fb182d98b16192ff44f420f6e87ecff0844948398be52ee`). Dump `/root/atlasnow-backups/atlasnow-20261028-pre-pilot-v2.dump` sha256 `c465aa85d7402896a49cf95d8ac897ff473551daf65d9137e35a54424451013e`.
+
+### 2026-10-27
+- Changed: Deployed visit-time patch `5a46f4c3a58ac9f4f0bf5e86612923ee0340de1f` as image `sha256:5a976374ee0dde936fb182d98b16192ff44f420f6e87ecff0844948398be52ee`. Workspace `yola-fun-gandaria-city` (`cmvqlxwnt0001khwmqphni4if`) under agency `p2p-labs`. Phone `1324915324031839` linked there. P2P phone unchanged. Flags false. Synthetic order `YOLA-20261027-000001` is TEST SYNTHETIC, not a customer.
+- Why: The published Flow submits `SLOT_*` ids. The system-user token already on the P2P Cloud connector can read the YOLA WABA and the approved template. The QA user token was not copied.
+- Next: One real Flow send still needs a named allowlisted recipient and an explicit flag change. Rollback image `atlasnow-atlas:rollback-pre-slot-5a46f4c`. Dump `/root/atlasnow-backups/atlasnow-20261027-pre-slot-5a46f4c.dump`.
+
+### 2026-10-27
+- Changed: Read-only Meta check on the running `8450d4b` image. No rebuild, no migration, no phone-row write, flags stayed false.
+- Why: Graph, using the existing commerce QA token, confirmed WABA `1736564147618215` (PT Sorak Digital Media) and phone `1324915324031839` (`+1 555-436-2839`). Approved template `yolafun_presale_offer` (`1762350784861919`, en, MARKETING) opens Flow `1744309183784887` on screen `OFFER`. The Flow dropdown submits `SLOT_1000` style ids, which the current parser rejects.
+- Next: Name the YOLA workspace before inserting a `WabaPhone` row. Do not attach this phone to `p2p-labs-jeyw`. Set `YOLA_WA_ACCESS_TOKEN` in `/opt/atlasnow/.env` and recreate atlas with `--no-build`. Leave the four flags false.
+
+### 2026-10-27
+- Changed: Deployed YOLA FUN on atlasnow.co from `release/yola-commerce-production` `8450d4b4f76a543126add98b84e8d08443ca9965`. Image `sha256:d71ae2187234e502f900965a471a935b278fac5fd70dea525711cd548e759bfd` (amd64). Migration `20261027120000_yola_fun_commerce` applied. Sends, bulk, live payments, and live tickets are false. Phone id and Graph token are unset.
+- Why: The live database already had the two October inbox migrations and did not have `commerce_orders`. The release image carries the inbox files, omits `commerce_orders`, and adds only the YOLA tables.
+- Next: Link the YOLA phone to its workspace `WabaPhone` row and set `YOLA_WA_PHONE_NUMBER_ID`. Put `YOLA_WA_ACCESS_TOKEN` on the VPS, then verify the Marketing template. Leave the four flags false until that read and a named recipient exist. Rollback image `atlasnow-atlas:rollback-pre-yola-8450d4b`. Dump `/root/atlasnow-backups/atlasnow-20261027-pre-yola-8450d4b.dump`.
+
+### 2026-10-27
+- Changed: YOLA FUN Postgres module on clean branch `release/yola-commerce-production` at `6b46fc9c4d1bcf278d1d208604e134d0157307ce`, based on last verified production commit `f686143`. Additive migration `20261027120000_yola_fun_commerce`. Existing webhook only. Flags off. Not deployed.
+- Why: The demo SQLite app cannot boot on the Biznet stack. SSH to the VPS timed out and TLS to atlasnow.co returned no handshake bytes, so the live image was not re-read and production migrate was not run.
+- Next: Restore SSH, confirm the running image digest and `_prisma_migrations`, back up Postgres, then apply only `20261027120000_yola_fun_commerce`. Leave sends, bulk, live payments, and live tickets off. Put `YOLA_WA_ACCESS_TOKEN` on the VPS, not in chat, before a Graph template read.
+
+### 2026-10-27
+- Changed: No production deploy. YOLA FUN commerce stays uncommitted on `hackathon/yola-fun-demo` at `8cb8e3867fff126e6541070676a80ee6ee657889`. It is local SQLite under `/demo/yola` and is not on the Biznet production stack.
+- Why: Deploying that branch onto atlasnow.co would replace the live app and its Postgres history.
+- Next: Do not push or boot this branch on the VPS. Production webhook stays `https://atlasnow.co/api/webhooks/whatsapp`.
+
+### 2026-10-27
+- Changed: Marketing template send path on `hackathon/yola-fun-demo`, still uncommitted. Status stays `UNVERIFIED` until `verifyMarketingTemplate()` reads Meta. An env flag of APPROVED does not approve it. One opted-in test send can be queued and stays held. Bulk send stays disabled. No live WhatsApp send. Production webhook untouched.
+- Why: Founder reported the Marketing Flow template approved. This machine has no Meta token, so the API check could not run and the status was not flipped.
+- Next: Provide `YOLA_WA_ACCESS_TOKEN` outside chat, then one named recipient who has opted in. Do not republish the Flow. Do not deploy.
+
+### 2026-10-27
+- Changed: Local YOLA FUN commerce engine on `hackathon/yola-fun-demo`, still uncommitted, on top of `8cb8e3867fff126e6541070676a80ee6ee657889`. Keyword routing queues one held Flow invitation. A matching `flow_token` creates one `PENDING_PAYMENT` order `YOLA-YYYYMMDD-######` at Rp499.000. Mock payment can issue one two-visit ticket. Real WhatsApp send stays off because the published Flow ID is not in the repo. Production webhook untouched.
+- Why: M1–M4 need a working local path before Meta or Xendit credentials exist.
+- Next: Founder supplies the published Flow ID through environment config, not chat. Do not republish the Flow. Do not deploy. Do not move `https://atlasnow.co/api/webhooks/whatsapp`.
+
+### 2026-10-27
+- Changed: Local Flow inbox on `hackathon/yola-fun-demo`, uncommitted, on top of `8cb8e3867fff126e6541070676a80ee6ee657889`. New route `POST /api/demo/yola/flow-webhook` verifies `X-Hub-Signature-256` with `YOLA_FLOW_APP_SECRET`, accepts one sandbox `nfm_reply`, and stores a CREATED order in `data/yola-flow-demo.sqlite`. List at `/demo/yola/submissions`. No ticket. Production webhook untouched. Not connected to Meta.
+- Why: Phase 1 of the YOLA FUN Flow presale needs a signed receiver before any phone test. App `1551959122621683` still shares the live callback, so this route stays local.
+- Next: Founder approves a separate Meta app and an isolated HTTPS callback before any subscribe or send. Do not publish the Draft Flow. Do not deploy.
+
+### 2026-10-27
+- Changed: YOLA FUN demo on `hackathon/yola-fun-demo` at `8cb8e3867fff126e6541070676a80ee6ee657889` is now one product, Kartu Presale 2× Masuk, Rp499.000, Gandaria City. Local ad, WhatsApp simulator, sandbox payment, demo QR, staff check-in at `/demo/yola/check-in`. Sandbox PAID is simulated revenue, not omzet. Business chat identity +1 555-436-2839. No deploy.
+- Why: Founder replaced the visit-request story with presale → payment → QR entry for the client demo.
+- Next: Restart from `atlasnow-yola-demo` with `npx next dev --turbopack -p 3010`. Clear the session before the live walkthrough. Do not merge or deploy.
+
+### 2026-10-27
+- Changed: Local YOLA FUN client demo on branch `hackathon/yola-fun-demo` at `3e75def82a2749a234abe72bc803e851f44e05c0`. Worktree `atlasnow-yola-demo`, base `dc676f9`. Customer `/demo/yola`, workspace `/demo/yola/workspace`, port 3010. In-memory qualified lead only. Fixture insight, not live Muse Spark.
+- Why: Morning client demonstration. Synthetic branches. Not a production workspace.
+- Next: Leave Draft PRs #1–#8 unmerged. Do not deploy this demo. Restart with `npx next dev --turbopack -p 3010` from the worktree. YOLA FUN production stays NO-GO.
+
+### 2026-10-26
+- Changed: M2.4 operator signing on Draft PR https://github.com/joefebrian/atlasnow/pull/8. Commit `5b1dc5e7c5da8e9df02cf9a6b49cdb903c9512cf`. GitHub run https://github.com/joefebrian/atlasnow/actions/runs/40359014239 staged the migration package and refused to persist an attestation for this private repository. The preflight now checks a detached Ed25519 approval. `scripts/release-trust-fingerprint.txt` is `UNPINNED`. No founder key was created. Commerce Actions https://github.com/joefebrian/atlasnow/actions/runs/40363106623 succeeded (unit and db). That run is not a release approval. No production connection.
+- Why: GitHub-native attestation cannot be stored for this user-owned private repository.
+- Next: Stop. Do not re-run the attestation workflow. Do not merge. Staging and production stay NO-GO. Image binding is NOT VERIFIED. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: M2.4 attestation gate on Draft PR https://github.com/joefebrian/atlasnow/pull/8. Commit `ef13691369e9b96844e4fd664d819ef2fbffa6c1`. The signer workflow is manual and attests the migration package only. The session token cannot install `.github/workflows/release-provenance.yml` (contents API 404, scopes `gist`, `read:org`, `repo`). No GitHub attestation was issued. Commerce Actions https://github.com/joefebrian/atlasnow/actions/runs/40349945085 succeeded. That run is not a provenance attestation. No production connection.
+- Why: A pull-request trigger would attest arbitrary head commits, and this identity cannot write workflow files.
+- Next: Stop. The founder installs the workflow from the GitHub website if they choose. Do not merge. Staging and production stay NO-GO. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: M2.4 provenance correction on Draft PR https://github.com/joefebrian/atlasnow/pull/8. Commit `8ff38f27077042bf0d23a1ee2dd0aede08ab518c`. The operator preflight requires a GitHub artifact attestation and rejects a caller-supplied SHA. The signer workflow is `scripts/release-provenance.workflow.yml` and is not installed. Actions https://github.com/joefebrian/atlasnow/actions/runs/40342510703 succeeded on that SHA. No production connection.
+- Why: Comparing `--git-sha` with `approvedGitSha` did not prove the packaged artifact was built from that commit.
+- Next: Stop. The signer workflow still needs a credential with workflow scope. Staging and production stay NO-GO. Do not merge PR #1 through #8. Do not deploy. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: M2.4 release safety on Draft PR https://github.com/joefebrian/atlasnow/pull/8. Commit `8f9b7b3b0aa33a04c01a0237b73123fbc5fb297e`. Base is PR #7 at `9881e352c5536854bd6e5dbb4fe20f4403ffc505`. Restored both inbox SQL files at the observed checksums. Ordinary boot starts the server and does not run Prisma migrate. The offline preflight fails closed because `approvedGitSha` is null. Import and feed stay applied with unknown historical authorization. Orders and both conversational folders stay unapproved. Actions https://github.com/joefebrian/atlasnow/actions/runs/40302639619 succeeded on that SHA.
+- Why: The read-only inventory found 39 finished rows. The 37-row note is incorrect. A later image that migrates on boot would apply the three pending folders.
+- Next: Stop. A future staging-readiness assessment is NO-GO. Production rollout is NO-GO. Do not merge PR #1 through #8. Do not deploy. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: M2.3 image checklist correction on Draft PR https://github.com/joefebrian/atlasnow/pull/7. Commit `9881e352c5536854bd6e5dbb4fe20f4403ffc505`. Actions https://github.com/joefebrian/atlasnow/actions/runs/40283685660 was in progress when this note was written. Only `docs/M2_3_MIGRATION_INVENTORY.md`. Expected images are `postgres:16-alpine`, `devlikeapro/waha:latest`, `caddy:2-alpine`, and the locally built `atlas` image (`atlasnow-atlas` or `atlasnow-atlas:latest`). A mismatch is recorded and stops the visit. No production connection.
+- Why: The operator table had shortened image names, so a live image could be accepted without matching `compose.yaml`.
+- Next: Stop. Staging and production stay NO-GO. Wait for the founder's three metadata texts. Do not merge PR #1 through #7. Do not deploy. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: M2.3 operator procedure correction on Draft PR https://github.com/joefebrian/atlasnow/pull/7. Commit `243beec28bfa225a73fbd2a5b31d33ea909e0878`. Actions https://github.com/joefebrian/atlasnow/actions/runs/40271678560 was in progress when this note was written. The founder confirms compose project `atlasnow` at `/opt/atlasnow` and stops on a mismatch. The read-only query selects the container role and database. The running image file list is not the next deployment. No production connection.
+- Why: The export must name `POSTGRES_USER` and `POSTGRES_DB`, and the current image must not be treated as the next release inventory.
+- Next: Stop. Staging and production stay NO-GO. Wait for the founder's three metadata texts. Do not merge PR #1 through #7. Do not deploy. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: M2.3 production migration inventory procedure on `feature/conversational-commerce-m2-3`. Commit `3bb6d223506e71396aeee2b83cf46fd460fa93a9`. Draft PR https://github.com/joefebrian/atlasnow/pull/7 stacked on PR #6. Actions https://github.com/joefebrian/atlasnow/actions/runs/40268740531 was queued when this note was written. Procedure is `docs/M2_3_MIGRATION_INVENTORY.md`. Clean commit `6efaa659` has 40 migration checksums. The two inbox folders are absent. The five later folders are unapproved. Production was not opened.
+- Why: M2.2 is accepted as a review and still NO-GO until an operator supplies `_prisma_migrations` metadata.
+- Next: Stop. Wait for the founder's separately authorized CSV and image hash list. Do not merge PR #1 through #7. Do not deploy. Do not pass production credentials to an agent. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: M2.2 review correction on Draft PR https://github.com/joefebrian/atlasnow/pull/6. Commit `6efaa659a14c2f3712d9b6f2dc0d9dfde235d48e`. Actions https://github.com/joefebrian/atlasnow/actions/runs/40267589141 was in progress when this note was written. The review now records that Prisma 5.22.0 `migrate deploy` applied a pending migration on a disposable loopback database after an applied folder was removed, and that `migrate deploy` and `migrate status` both exited 0 after the local file no longer matched the stored SHA-256. Production `_prisma_migrations` was not opened. No schema, entrypoint, or migration change.
+- Why: A missing applied folder cannot be relied on to stop application startup. Unconditional `migrate deploy` on boot stays a release blocker.
+- Next: Stop. NO-GO for staging and production until an operator supplies the six `_prisma_migrations` columns and a later change makes startup skip migrate by default. Do not merge PR #1, #2, #3, #4, #5, or #6. Do not deploy. Do not pass production credentials to an agent. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: Conversational commerce M2.2 release-readiness review on `feature/conversational-commerce-m2-2`. Commit `28ad2362ef767da7708ececa007020741b5ccc79`. Draft PR https://github.com/joefebrian/atlasnow/pull/6 stacked on PR #5. Review is `docs/M2_2_RELEASE_READINESS.md`. No schema change. Production history was not opened.
+- Why: QA persistence at `df3e7f2` is accepted, and a production or staging boot would still run `prisma migrate deploy` on every folder in the image.
+- Next: Stop. NO-GO for staging implementation until a backup proves the production migration inventory and boot stops migrating by default. Do not merge PR #1, #2, #3, #4, #5, or #6. Do not deploy. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: Conversational commerce M2.1B atomic rollback on `feature/conversational-commerce-m2-1b`. Head `df3e7f2997fcddad6bc7a499d62db40bff146ac9`. Boundary fix `84b8ff477e45f8a1e601d8777b8e84353afb8593`. Draft PR https://github.com/joefebrian/atlasnow/pull/5. Actions https://github.com/joefebrian/atlasnow/actions/runs/40262845004. A connection inserted inside `runAtomic` rolls back when the callback returns a failure or throws. No schema change.
+- Why: Prisma commits a transaction callback that returns. Skipping the diff flush left the direct connection insert committed.
+- Next: Stop. Do not merge PR #1, #2, #3, #4, or #5. Do not deploy. Do not migrate production. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: Conversational commerce M2.1B row-level payment, webhook, attribution, policy, and credential persistence on `feature/conversational-commerce-m2-1b`. Implementation `1c19dfe900bb663e01012996db9a0ceff451fd41`. CI workflow `e99cb2aa7b7c4b427ed314fc299bb1e3a3559065`. Draft PR https://github.com/joefebrian/atlasnow/pull/5 stacked on PR #4. Actions https://github.com/joefebrian/atlasnow/actions/runs/40260873495. Disposable `atlasnow_cc_qa_*` only. Not applied to production.
+- Why: The remaining QA snapshot rewrite and one global advisory lock could still overwrite a concurrent booking when a payment, webhook, attribution, policy, or credential write ran.
+- Next: Stop. Production migration, a webhook route, a gateway, and a live provider need a separate approval. Do not merge PR #1, #2, #3, #4, or #5. Do not deploy. YOLA FUN stays NO-GO.
+
+### 2026-10-26
+- Changed: Conversational commerce M2.1A row-level booking persistence on `feature/conversational-commerce-m2-1a`. Booking commit `b0447e1c7fc7ed8510c8a52e5ae641d7d4b244de`. CI workflow `e2ea6dad766dad5e70fe53bd12f258d03fd8ec1c`. Draft PR https://github.com/joefebrian/atlasnow/pull/4 stacked on PR #3. Actions https://github.com/joefebrian/atlasnow/actions/runs/40254829247. Disposable `atlasnow_cc_qa_*` only. Not applied to production.
+- Why: The QA snapshot rewrite and one global advisory lock serialized unrelated merchants and rewrote every Cc row on a booking write.
+- Next: Stop. M2.1B replaces payment, webhook, attribution, credential, and policy snapshot writes before the adapter is production-grade. Do not merge PR #1, #2, #3, or #4. Do not deploy. YOLA FUN stays NO-GO.
+
 ### 2026-10-26
 - Changed: Conversational commerce M2 QA PostgreSQL adapter on `feature/conversational-commerce-m2`. Implementation `0cdeb608d32b2b661c7d89fddc69dd0282fc1c2c`. CI workflow `280900fd2c7b6c10ed196fc13b0213df27f369d6`. Draft PR https://github.com/joefebrian/atlasnow/pull/3. Actions https://github.com/joefebrian/atlasnow/actions/runs/40251614342. Disposable `atlasnow_cc_qa_*` only. Not applied to production.
 - Why: The schema review was conditionally accepted. The adapter needed a nullable idempotency foreign key, location consistency, BIGINT amounts, provider-scoped live slots, and a fail-closed QA database.
