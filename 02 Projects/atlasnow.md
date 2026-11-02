@@ -20,6 +20,91 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **WhatsApp Commerce (proposed 2026-10-23):** [[AtlasNow-WhatsApp-Commerce-PRD]] — pilot YOLA FUN. Katalog + cart WhatsApp, order, link bayar di gateway merchant, atribusi cabang. Belum live. Uang tetap [[AtlasNow-Monetization-PRD]]. Nomor tetap [[AtlasNow-WhatsApp-Decision]].
 
+### 2026-10-31
+- Changed: Deployed inbox media `36a08b6` as image `sha256:b1403bf54b9d28443b0bf9acbb2cfaa24fa3b54b3dad4e8116c5fdc4329f26d5`. Migration `20261031120000_inbox_media_file` applied. WhatsApp HQ, Messenger, and Instagram can store photo, video, voice, and document. Instagram cannot send a document. `.exe` and `.rar` are refused.
+- Why: Inbox only labeled those files, and the reply box sent text only.
+- Next: Refresh Inbox and send one photo inside an open service window. Rollback image is `atlasnow-atlas:rollback-pre-inbox-media`.
+
+### 2026-10-29
+- Changed: Opened coexistence launch for P2P workspace `cmt26jeyx0000kcfx1tj81ck1` only. Atlas recreated healthy. Main Cloud API number stayed connected.
+- Why: Continue with Meta stayed disabled while the launch flag was off.
+- Next: Operator finishes the Meta popup for the Business App number. Do not use `+62 858-6366-6290` for that flow.
+
+### 2026-10-29
+- Changed: Removed the leftover P2P card for `+62 856-9721-0806` (`691550210705851`). The disconnected connector and disabled phone row are gone. Main number `+62 858-6366-6290` stayed connected.
+- Why: Disconnect only cleared the token, so the card stayed on the workspace page.
+- Next: Coexistence launch is still off. Open it only if the operator names the Business App number to connect.
+
+### 2026-10-29
+- Changed: Deployed merchant payment handoff `7a17ea8` as image `sha256:5dab11376aa9cc211052c97c5d519a060c86fd182783a81c9e2830071cf91987`. Migration `20261029120000_yola_payment_config` applied. YOLA workspace has no payment-config row, so checkout stays demo. The two pilot orders remain sandbox `PENDING_PAYMENT`. Send flags stay false. Tickets stay 0.
+- Why: A workspace admin can save one HTTPS merchant URL. Each new order keeps the destination from that moment. Opening the page does not settle it.
+- Next: Operator saves the real merchant URL in YOLA → Payment link, then authorizes one Flow send. Live tickets wait for a trusted payment confirmation.
+
+### 2026-10-29
+- Changed: Pilot send produced `YOLA-20261029-000001` and `YOLA-20261029-000002`, both `pilot` / `PENDING_PAYMENT`. Handset video shows the first payment link. Send flags are false again. Release worktree has an uncommitted merchant payment-link handoff; it is not deployed.
+- Why: The customer submitted the Flow twice. Static merchant links must stay a tracked handoff, not a live payment.
+- Next: Review the YOLA payment setting, then deploy only after the migration is accepted.
+
+### 2026-10-29
+- Changed: Recipient A `+6285697210806` is on the YOLA API Setup page with a green check for `+1 555-436-2839`. `YOLA_PILOT_ALLOWLIST=6285697210806`. `YOLA_FLOW_SEND_ENABLED=true` and `YOLA_PILOT_LINK_SEND_ENABLED=true`. The unsent invited session from 2026-10-28 19:19 UTC was closed. The held flow invite was not sent.
+- Why: The corrected screenshot matches Recipient A, and the old invited session would have blocked a new Flow.
+- Next: Operator sends `yola fun` from that handset to `+1 555-436-2839`. Do not press Send message in Meta.
+
+### 2026-10-29
+- Changed: Checked the Meta API Setup screenshot. The green check is on `+6285687210806` (`85687210806`), not authorized recipient `+6285697210806`. Allowlist stayed empty. The visible Bearer is a temporary token and is not the production runtime token.
+- Why: One digit differs, so that check does not verify Recipient A.
+- Next: Correct the To field to `85697210806` and finish Meta verification. Do not press Send message.
+
+### 2026-10-29
+- Changed: Named YOLA pilot recipients `+6285697210806` and `+6281281989995`. Did not write `YOLA_PILOT_ALLOWLIST` and did not enable send flags. Live API Setup for `+1 555-436-2839` shows an empty To field and no generated Bearer.
+- Why: Meta does not show either number as a verified test recipient, and the screenshot Bearer was not available to compare.
+- Next: Operator verifies Recipient A on that API Setup page, then says so. Do not send `yola fun` until the allowlist is set.
+
+### 2026-10-29
+- Changed: Deleted the CRM history for `+62 856-9721-0806`: 40,236 messages, 395 conversations, and 389 contacts that had no other conversation. The main P2P number still has 17 conversations and 47 messages. YOLA pilot flags stayed off because no test recipient is registered.
+- Why: The imported personal chats had to leave the workspace, and the YOLA send path must stay closed until one allowlisted recipient exists.
+- Next: Register one Meta test recipient, then send `yola fun` to `+1 555-436-2839`.
+
+### 2026-10-29
+- Changed: AtlasNow stopped ingestion and sending for `+62 856-9721-0806` (`691550210705851`). Connector `DISCONNECTED`, token cleared, `WabaPhone` `DISABLED`. Main number `1331612236697087` stayed `CONNECTED` and default.
+- Why: That Coexistence number is a personal number and must not keep entering the P2P Labs workspace.
+- Next: Stored history from the sync remains until a separate delete is requested.
+
+### 2026-10-29
+- Changed: P2P Labs support number `691550210705851` / `+62 856-9721-0806` is connected as Coexistence on WABA `1082091520332753`. Meta reports `is_on_biz_app=true`, platform `CLOUD_API`, status `CONNECTED`. Original `1331612236697087` stayed `CONNECTED` and default. History sync is in progress from one request. The launch gate is closed again.
+- Why: The owner finished Embedded Signup. The one-time sync must not be sent again, and another workspace must not be able to launch onboarding.
+- Next: One Business App reply so the echo can be checked. Leave both numbers connected.
+
+### 2026-10-29
+- Changed: P2P Labs coexistence launch is on. `WHATSAPP_COEXISTENCE_ENABLED=true` and `WHATSAPP_COEXISTENCE_TENANT_IDS=cmt26jeyx0000kcfx1tj81ck1`. Same image `sha256:cbcac6aa52b1cd675849e404ec52ab6ca3a90b8b9afcc274cb9f599d8c4562ad`. Other workspaces stay denied. Phone `1331612236697087` stayed CONNECTED and default. No popup and no new number.
+- Why: The owner approved a separate support Business App number, entered inside Meta, for one controlled test.
+- Next: Sign in to P2P Labs, open Add WhatsApp Number, choose the existing Business App, and continue in Meta. Turn the launch gate off after that session unless it should stay open.
+
+### 2026-10-29
+- Changed: Coexistence UAT stopped before the flag flip. Live Graph for P2P `1331612236697087` / `+62 858-6366-6290` is CONNECTED, GREEN, `platform_type` CLOUD_API, `is_on_biz_app` false. It is the only phone on WABA `1779220239983016`. Flags stay unset.
+- Why: That number is the existing Cloud API connector. Coexistence needs a different number that is still on the WhatsApp Business App.
+- Next: Name that second number and approve the two env lines. Leave `1331612236697087` and `1324915324031839` out of the test.
+
+### 2026-10-29
+- Changed: Release B3.2.3 `edeea04d35c17457b7ced434595b913bb6fd1477` is running as image `sha256:cbcac6aa52b1cd675849e404ec52ab6ca3a90b8b9afcc274cb9f599d8c4562ad`. Coexistence finish refuses a phone this workspace already connected. Launch copy no longer asks for a verified number before the popup. `WHATSAPP_COEXISTENCE_ENABLED` and `WHATSAPP_COEXISTENCE_TENANT_IDS` stay unset. P2P phone `1331612236697087` stayed CONNECTED. No Meta popup and no second number.
+- Why: An authorized finish could have overwritten the existing Cloud API connector, and the old sentence blocked launch before Meta could judge the number.
+- Next: Read configuration `1401943948578182` for Business App onboarding. Name one Business App number and consent before the P2P Labs allowlist is turned on.
+
+### 2026-10-29
+- Changed: Release B3.2.2 `1308107467d42026f2362ce82f189ff06c8f179f` is running as image `sha256:b49dc1ebb22474213265e7e01e36c3e0f49fe10d1b6de5d0bd0eede0c8303cf8`. Verified revenue now requires a genuine order and a live provider settlement. YOLA inbound can appear in that workspace without a Cloud connector. The September billing deadlines are gone. Coexistence stays off unless a workspace id is listed. Pushed to `origin/release/yola-phone-claim`.
+- Why: A plain PAID status could have counted as revenue, and YOLA chats never reached Conversations.
+- Next: Sign in and confirm the YOLA number reads Registered Phone — YOLA Pilot, and the billing panel says usage estimate. Name one Business App number before coexistence.
+
+### 2026-10-28
+- Changed: Release B3.2.1 pushed `0a4cd801d8401a0eb03b5a39315f5119baa30002` to `origin/release/yola-phone-claim`. No new commit and no redeploy. Isolated tests: 63 passed, 0 failed. Production image `sha256:a553c5071f351139ffb5e97a6d030bcedd717fe64ab8b75f48053fb2ca9e255e` stayed healthy. YOLA still has no Cloud connector. Coexistence stayed unset. Authenticated module clicks stayed on the sign-in page.
+- Why: The production commit had to be on the remote, and the multi-number behavior had to be rechecked on fixtures before any new feature.
+- Next: Sign in as hello@atlasnow.co and open Chat apps, Conversations, Commerce, Loyalty, and YOLA. Open configuration `1401943948578182` only to read it. Name one eligible Business App number before coexistence onboarding.
+
+### 2026-10-28
+- Changed: Release B3.2 `0a4cd801d8401a0eb03b5a39315f5119baa30002` is running as image `sha256:a553c5071f351139ffb5e97a6d030bcedd717fe64ab8b75f48053fb2ca9e255e`. Migration `20261028210000_whatsapp_multi_number` is applied. A workspace can hold more than one WhatsApp number. YOLA FUN Gandaria City still has phone `1324915324031839` and no Cloud connector, so Settings shows that number as not configured. P2P Labs phone `1331612236697087` stayed on its connector. `WHATSAPP_COEXISTENCE_ENABLED` stays unset. YOLA send, bulk, payment, and ticket flags stay false.
+- Why: The old connector key allowed one WhatsApp row per workspace, and the settings screen treated a missing connector as no number.
+- Next: Sign in as hello@atlasnow.co and open Chat apps, Conversations, Commerce, Loyalty, and YOLA. Read Meta configuration `1401943948578182` without editing it. Name an alert destination and one eligible Business App number before any coexistence onboarding.
+
 ### 2026-10-28
 - Changed: No deploy. Authenticated production QA was not run. The only active super admin is `hello@atlasnow.co` on `p2p-labs`, and this browser is on the sign-in page. Meta configuration `1401943948578182` still stops at the Business Suite login. Webhook fields were re-read and are complete. `WHATSAPP_COEXISTENCE_ENABLED` stays unset. No monitor account was created.
 - Why: Coexistence UAT needs a signed-in module check, a dashboard read of that configuration, an eligible number, and a named alert destination.
