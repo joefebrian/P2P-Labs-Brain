@@ -20,6 +20,113 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **WhatsApp Commerce (proposed 2026-10-23):** [[AtlasNow-WhatsApp-Commerce-PRD]] — pilot YOLA FUN. Katalog + cart WhatsApp, order, link bayar di gateway merchant, atribusi cabang. Belum live. Uang tetap [[AtlasNow-Monetization-PRD]]. Nomor tetap [[AtlasNow-WhatsApp-Decision]].
 
+### 2026-11-04
+- Changed: Transferred and loaded candidate image `atlasnow-atlas:studio-dago-6c6ff44` onto the VPS. Archive SHA-256 `5cdbe72d6cee0bdc4343caf2272f84e6f5c827b34923e23e6f592fb6b0a87e0c`, 284996096 bytes, mode 600, at `/root/atlasnow-release/6c6ff4460c6f35af2456087c37fd2e048c95ff3f/atlasnow-studio-dago-6c6ff44.tar`. Loaded image ID `sha256:f9fe4bba85dc4cf442dc1fdb7939aea779faaf603adcf96a8313e922d89200a3`, linux/amd64, revision `6c6ff4460c6f35af2456087c37fd2e048c95ff3f`. Production tags and `atlasnow-atlas-1` stayed on `sha256:7bbc36dc375ecef67e48334245ea2cf9da4a229e075c821bc44ccf00ea3bed24`, healthy, start `2026-11-03T08:10:36Z`. The candidate container was not started.
+- Why: The Dago image has to be on the VPS before any boot approval.
+- Next: Wait for a separate approval before booting the candidate, Studio migration, live account, or traffic switch. Generation stays off.
+
+### 2026-11-04
+- Changed: Took one production PostgreSQL custom dump and restored it once into an isolated temporary cluster on the VPS. File `/root/atlasnow-backups/atlasnow-20261103T194904Z-pre-studio-dago.dump`, finished 2026-11-03T19:49:05Z, 1586255 bytes, mode 600, SHA-256 `ad748a591b81fd836d04a8eabc44073ef06a193a57edbb77ed290134e2a79ede`. Before the dump the live image was still `sha256:7bbc36dc375ecef67e48334245ea2cf9da4a229e075c821bc44ccf00ea3bed24` with 48 finished migrations. `pg_restore --exit-on-error` into empty `atlasnow_restore_drill` exited 0. The restore read 48 finished baseline migrations, no Studio migration, and no Studio tables. The live app stayed healthy on the same image and start time. The temporary cluster was removed. The dump stays on the VPS.
+- Why: The Dago candidate needs a proven production backup before any image transfer or boot.
+- Next: Wait for a separate approval before image transfer, production boot, Studio migration, live account, or deploy. Generation stays off.
+
+### 2026-11-04
+- Changed: Rebuilt the Dago candidate locally from git archive of `6c6ff4460c6f35af2456087c37fd2e048c95ff3f`. Archive SHA-256 `25b28ece5b412ce28c536ee69e0f310b04aef9099f9912133234b28b6f27c7cd`. Image `atlasnow-atlas:studio-dago-6c6ff44` is `sha256:f9fe4bba85dc4cf442dc1fdb7939aea779faaf603adcf96a8313e922d89200a3`, linux/amd64, revision label set to that commit. It has 49 migration files, the Studio SQL checksum matches, and `commerce_orders` is absent. On the local practice database the presenter opened DAGO 1 at Rp 39.000, the catalog at Rp 45.000, then the same DAGO 1 export. An empty tenant closed Studio, agency staff were refused, and Generate stayed 403. The older arm64 image was kept and is not the release artifact. No production backup, transfer, boot, or deploy.
+- Why: The previous image had no revision label and was built before the commit existed.
+- Next: Wait for a separate approval before the production backup, image transfer, boot, live account, or deploy. Generation stays off.
+
+### 2026-11-04
+- Changed: Tightened the uncommitted Dago candidate. Studio scripts no longer contain a password; presenter, comparison, and agency credentials are read when a script runs. The access check refuses any non-loopback address before login. Setup still refuses every database except `127.0.0.1:5437/atlasnow_studio_demo`. Photos and `manifest.json` live in `fixtures/studio-demo`. Setup succeeded twice from that package after the old `/tmp` copy was removed. DAGO 1 stayed `cmw0yt8rd000drb2dxrslj4xi`, sha256 `6a3454b1fafc660e3790b284603558165faee3cf350de5f3e31605d9fd75f258`. Compose now passes `CREATIVE_STUDIO_DEMO_TENANT_ID` to `atlas` with an empty default. An empty value closed Studio. `studio-demo-tenant` let the Brand Admin presenter open DAGO 1. Agency staff on P2P Labs got neither the demo page nor the image, including direct URLs. The price path stayed Rp 39.000, then Rp 45.000, then Rp 39.000. Candidate image `atlasnow-atlas:studio-dago-candidate` is `sha256:c4168cf95db2e42fcae9864c1c4b9aa2f62c885e30719861d70e4e1c42ad0c7c`. Studio SQL and the startup script were not edited. No commit, push, production dump, or deploy.
+- Why: The demo has to be recoverable from this tree, and only the Brand Admin who landed on the demo tenant may see it.
+- Next: Wait for a separate approval before commit, live setup, production dump, push, or deploy. Generation stays off.
+
+### 2026-11-04
+- Changed: Built an uncommitted release candidate in `atlasnow-studio-candidate` from `4820604`. It keeps only the direct Coral Jar Bandung Dago studio URL, catalog photo, Saved creatives, preview, and Export. Navigation, Settings/Muse, and Approve are out. Generate always returns 403. Studio opens only for tenant `studio-demo`. A separate database accepted the setup twice without duplicate rows. The candidate image applied only `20261103140000_creative_studio` on a baseline practice database, then the `4820604` image still served login with those tables left in place. A failed copy of that migration left the tables absent and an unfinished migration row. No commit, push, production dump, production boot, or deploy.
+- Why: The stage path has to be reviewable on its own before anyone touches production.
+- Next: Wait for a separate approval before commit, dump, boot, live account, push, or deploy. Generation stays off.
+
+### 2026-11-04
+- Changed: Prepared a 90-second stage demo on the local studio. The spoken story starts from a customer asking whether Coral Jar at Rp 39.000 still applies in Dago, opens the saved Dago weekend file, then Show original photo at the catalog price Rp 45.000 for the same store, and ends on atlasnow.co. Saved creatives now show the store and promo so that file can be found. The price under the photo is larger. Generation stayed off. No model call, migration, commit, or deploy.
+- Why: A first viewing needs the customer question and the two prices, not a tour of image generation.
+- Next: Rehearse aloud once before the stage. Do not enable generation.
+
+### 2026-11-04
+- Changed: Creative Studio price now follows the asset's own job. A later failed job no longer replaces that price in Library or Saved creatives. An asset with no job keeps the live catalog price. Opening a saved creative whose store is no longer available keeps the image, saved price, and origin store. Create only offers stores that are still available. The approval fixture type in the test no longer refers to itself. `tsc --noEmit --incremental false` passed. Checked on disposable `atlasnow_stage2`. DAGO 1, 2, and 3 stayed unchanged. Alam Sutera availability was turned off for the proof and restored afterward. Generation stayed off. No model call, migration, commit, or deploy.
+- Why: Library and Saved creatives were reading the newest job, and the create form cleared a saved review when its store became unavailable. The test transaction type also failed TypeScript with TS7022.
+- Next: Local commit review only when the founder asks. Do not enable generation. Do not apply `20261103140000_creative_studio` to production until a separate approval.
+
+### 2026-11-04
+- Changed: The asset stamp, project status, and `creative.approve` audit now commit in one database transaction. The Approve route no longer writes the audit itself. A forced audit failure rolled the stamp and status back; the same asset then approved with one Library card and one audit. Sequential and concurrent requests still keep the first stamp and one audit. Checked on disposable `atlasnow_stage2`. DAGO 1, 2, and 3 stayed unchanged. Generation stayed off. No model call, migration, commit, or deploy.
+- Why: An audit write after the commit could leave an approval with no audit, and a later retry would not fill it in.
+- Next: Local commit review only when the founder asks. Do not enable generation. Do not apply `20261103140000_creative_studio` to production until a separate approval.
+
+### 2026-11-04
+- Changed: Repeated Creative Studio approval now keeps the first stamp. `approveCreativeAsset` claims the export only while `approvedAt` is null, and the route writes `creative.approve` only for that first claim. Proven on disposable `atlasnow_stage2`: a second identical request stayed at one audit, and two requests at the same time left one audit. DAGO 1, 2, and 3 were unchanged. Generation stayed off. No model call, migration, commit, or deploy.
+- Why: The old update rewrote `approvedAt` and added a second audit on retry and on two overlapping requests.
+- Next: Local commit review only when the founder asks. Do not enable generation. Do not apply `20261103140000_creative_studio` to production until a separate approval.
+
+### 2026-11-04
+- Changed: Access checks for Creative Studio ran through the app on disposable `atlasnow_stage2` only. Owner preview and download of DAGO 2 were 200 and matched the stored file. HQ Marketing preview was 200 and Approve was 403. The other brand got 404 on its own tenant and 403 on the Dago tenant, with no image bytes. Anonymous calls were 401. DAGO 2 approval time and account did not change. A disposable Brand Admin `otheradmin@stage2.local` was added on Stage2 Other so that session could log in. Generation stayed off. No product code change, model call, migration, commit, or deploy.
+- Why: Founder asked for separate login sessions against the real preview, download, and approve endpoints.
+- Next: Do not enable generation. Do not apply `20261103140000_creative_studio` to production until a separate approval.
+
+### 2026-11-04
+- Changed: Show original photo now uses the live catalog price and the store still selected. The saved price, preset, stale warning, and Approve or Export stay with the generated variation. The three Dago variations remain under the canvas. Checked as Brand Admin on disposable `atlasnow_stage2`. Generation stayed off. No model call, migration, commit, or deploy.
+- Why: The catalog photo was still labeled with the saved creative's Rp 39.000 and Promo Offer.
+- Next: Do not enable generation. Do not apply `20261103140000_creative_studio` to production until a separate approval.
+
+### 2026-11-04
+- Changed: Create no longer opens the newest saved creative on its own. The canvas starts on the catalog photo and the active store, with three empty variation slots. A saved result shows its own product, store, snapshot price, and preset, and Approve or Export follows the variation on screen. Changing product or store returns to that catalog photo and drops the old asset. Changing product also clears the promo text and the best-seller confirmation. Checked on disposable `atlasnow_stage2` only. Generation stayed off. No model call, migration, commit, or deploy.
+- Why: `projects[0]` put a Bandung Dago creative on an Alam Sutera canvas, so Approve could act on a different store than the one in the header.
+- Next: Do not enable generation. Do not apply `20261103140000_creative_studio` to production until a separate approval.
+
+### 2026-11-04
+- Changed: Creative Studio presentation is now a canvas-first workspace in `CreativeStudio.tsx` only. The Create view shows the stored product photo, name, price, and store, with preset cards and three empty variation frames. Generation stays off. Checked in the browser at `http://127.0.0.1:3025` on the disposable database. No API, schema, migration, RBAC, or model-client change. No commit, push, or deploy.
+- Why: The first studio screen read as an admin form and hid the product photo.
+- Next: Do not enable generation. Do not apply `20261103140000_creative_studio` to production until a separate approval.
+
+### 2026-11-03
+- Changed: Stage 2 validated Creative Studio on a disposable Postgres 16 at `127.0.0.1:5436` (`atlasnow-stage2-pg`, database `atlasnow_stage2`). Migration `20261103140000_creative_studio` applied there only. Rollback dropped the three new tables and `migrate deploy` reapplied only that migration. Authenticated UI was checked on `http://127.0.0.1:3025` with generation left off. No Muse Spark, Muse Image, or SAM call. No production migration, commit, or deploy.
+- Why: Founder asked for isolated database and authenticated UI validation, then stop.
+- Next: Do not enable generation. Do not apply this migration to production until a separate approval. The Create tab does not show the product photo.
+
+### 2026-11-03
+- Changed: One isolated Muse Image smoke test. Catalog HTTP 200 listed `muse-image-1.0`. One `images/edits` call returned HTTP 200, one PNG, 1408×1760, latency 8144 ms, published Standard estimate $0.01. Preview saved outside the repo and outside tenant storage. No retry, no Spark, no SAM. Code, migration, and generation flag were not changed.
+- Why: Founder approved Stage 1.5 only.
+- Next: Visual review of the preview. Do not send another model call. Do not deploy.
+
+### 2026-11-03
+- Changed: Creative Studio MVP is implemented locally on `release/yola-phone-claim`, uncommitted, on top of `6b70f8675e335c667a11c21fb4e58a1010cf2e67`. Route `/commerce/studio`. Migration `20261103140000_creative_studio` is prepared and not applied. Generation stays off unless `CREATIVE_STUDIO_GENERATION_ENABLED=true`. No new model call.
+- Why: Stage 1 approval was for the development worktree only.
+- Next: Review before any commit, staging, production migration, or Muse Image live test.
+
+### 2026-11-03
+- Changed: Committed Muse Spark guardrails as `6b70f8675e335c667a11c21fb4e58a1010cf2e67` on `release/yola-phone-claim`. Not deployed. Connectivity smoke test PASS: catalog HTTP 200, one `muse-spark-1.3` reply `ready`, finish `stop`, 15 prompt / 194 completion / 184 reasoning, latency 2303 ms, estimate $0.00084325. No retry on that call.
+- Why: Review asked for contributor blocking, accumulated cost, and one live text check.
+- Next: Creative Studio still waits for a separate approval. Do not send another model call.
+- Why: The first smoke test spent a 32-token cap on reasoning.
+- Next: Founder says commit when this should ship. A benchmark still needs its own approval.
+
+### 2026-11-03
+- Changed: Approved Muse Spark retry. HTTP 200, model `muse-spark-1.3`, finish `stop`, text `ready`. Usage 15 prompt, 172 completion, 162 reasoning. Verdict PASS. Creative Studio still not built.
+- Why: The first call spent its 32-token cap on reasoning. This call used `reasoning_effort` low and `max_completion_tokens` 1024.
+- Next: Wait for founder approval before Stage 1. Do not send another model call.
+
+### 2026-11-03
+- Changed: One Meta Model API smoke test from the live `meta_model` slot. Catalog HTTP 200 includes `muse-spark-1.3`. The single chat completion returned HTTP 200, model `muse-spark-1.3`, finish `length`, empty text, 15 input and 32 output tokens (30 reasoning). Verdict FAIL. No second call.
+- Why: `max_tokens` 32 was spent on reasoning before the answer.
+- Next: Founder approval for one retry with a larger output cap. Do not build Creative Studio yet.
+
+### 2026-11-03
+- Changed: Stage 0 audit of Meta AI Creative Studio on `4820604`. No code, no migration, no model call.
+- Why: The studio PRD asks for an audit before any Muse request.
+- Next: Founder approval before a one-line Muse Spark smoke test. Creative Studio stays unbuilt.
+
+### 2026-11-03
+- Changed: Deployed Settings → API provider `meta_model` as commit `4820604` image `sha256:7bbc36dc375ecef67e48334245ea2cf9da4a229e075c821bc44ccf00ea3bed24`. The encrypted Model API key was already stored. The Meta app row stayed App ID `1551959122621683`. Filed [[AtlasNow-Meta-AI-Creative-Studio-PRD]]. Creative Studio is not built and not deployed.
+- Why: The Model API key needs its own card. The studio PRD says stop before a production deploy of generation.
+- Next: Stage 0 audit before any Muse call. Rollback image is `atlasnow-atlas:rollback-pre-meta-model`. Dump `/root/atlasnow-backups/atlasnow-20261103-pre-meta-model.dump`.
+
 ### 2026-10-31
 - Changed: Deployed inbox media `36a08b6` as image `sha256:b1403bf54b9d28443b0bf9acbb2cfaa24fa3b54b3dad4e8116c5fdc4329f26d5`. Migration `20261031120000_inbox_media_file` applied. WhatsApp HQ, Messenger, and Instagram can store photo, video, voice, and document. Instagram cannot send a document. `.exe` and `.rar` are refused.
 - Why: Inbox only labeled those files, and the reply box sent text only.
