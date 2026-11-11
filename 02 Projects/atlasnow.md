@@ -20,6 +20,11 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **WhatsApp Commerce (proposed 2026-10-23):** [[AtlasNow-WhatsApp-Commerce-PRD]] — pilot YOLA FUN. Katalog + cart WhatsApp, order, link bayar di gateway merchant, atribusi cabang. Belum live. Uang tetap [[AtlasNow-Monetization-PRD]]. Nomor tetap [[AtlasNow-WhatsApp-Decision]].
 
+### 2026-11-07
+- Changed: Public GitHub README on `main` rewritten and pushed as `de29746`. It describes the live workspace (inbox, broadcast, outlets, reviews, loyalty, customers). Local disk paths and the seed password are gone.
+- Why: The old README still described Fase 1, SQLite, and a demo password on a public repo.
+- Next: Leave marketplace APIs out of the README until a connection is actually live.
+
 ### 2026-11-04
 - Changed: `scripts/studio-muse-asset.mjs` now checks the product photo against `manifest.catalog.sha256` and writes the Muse project, job, and export in one transaction. A thrown error rolls every change back. A matching repeat returns `alreadyPresent` and does not rewrite snapshot, status, or metadata. Practiced on disposable `127.0.0.1:5440/atlasnow_studio_muse_practice` with 49 finished migrations and no `CommerceOrder` table. Fault after the project write left zero Muse rows. Job id `studio-live-muse-hero-job` collided and stayed on its original key. A different source photo was refused. The accepted pair is product `studio-live-coral-jar` and export `studio-live-muse-hero`, sha256 `29947da40ef97712acd2c52ded93afa6f54e2be8c87d9404cd661fd0924fe942`. The repeat kept metadata. DAGO checksums stayed. Container removed. Display unchanged. Generation stayed off. No commit, push, production write, or deploy.
 - Why: The founder accepted the asset-to-product link and asked for the data procedure to be transactional before a commit review.
