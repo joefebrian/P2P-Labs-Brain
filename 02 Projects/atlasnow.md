@@ -20,6 +20,11 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **WhatsApp Commerce (proposed 2026-10-23):** [[AtlasNow-WhatsApp-Commerce-PRD]] — pilot YOLA FUN. Katalog + cart WhatsApp, order, link bayar di gateway merchant, atribusi cabang. Belum live. Uang tetap [[AtlasNow-Monetization-PRD]]. Nomor tetap [[AtlasNow-WhatsApp-Decision]].
 
+### 2026-11-15
+- Changed: WhatsApp inbox photo retention is commit `9e6b7f0` on `feat/whatsapp-inbox-images`, pushed to origin. Commerce branch `feature/conversational-commerce-m2-4` was not moved.
+- Why: The inbox photo work was uncommitted on the commerce branch. Marketing files, the Vilo receipt fixture, and `.env.example` stayed out.
+- Next: Do not commit the OpenRouter key. It stays in the laptop `.env` and `/opt/atlasnow/.env` only.
+
 ### 2026-11-07
 - Changed: Public GitHub README on `main` rewritten and pushed as `de29746`. It describes the live workspace (inbox, broadcast, outlets, reviews, loyalty, customers). Local disk paths and the seed password are gone.
 - Why: The old README still described Fase 1, SQLite, and a demo password on a public repo.
