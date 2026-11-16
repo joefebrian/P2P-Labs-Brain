@@ -20,6 +20,96 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **WhatsApp Commerce (proposed 2026-10-23):** [[AtlasNow-WhatsApp-Commerce-PRD]] — pilot YOLA FUN. Katalog + cart WhatsApp, order, link bayar di gateway merchant, atribusi cabang. Belum live. Uang tetap [[AtlasNow-Monetization-PRD]]. Nomor tetap [[AtlasNow-WhatsApp-Decision]].
 
+### 2026-11-16
+- Changed: Step 5B receipt Job, staged, not committed. Webhook enqueues one Job when `receiptLayout` is set. Empty layout stays on `processHqReceiptImage`. Worker, three retries, photo purge, and `LOYALTY_JOB_WORKER=0`. Local `atlasnow` migrated with `20261117001000_loyalty_receipt_job`. `npm test`: 713 tests, 709 pass, 0 fail, 0 cancelled, 4 skipped.
+- Why: OCR must leave the webhook for brands on the new receipt path, and a dead worker must not earn twice.
+- Next: Commit only when asked. Replies stay step 6.
+
+### 2026-11-16
+- Changed: Committed step 5A as `44612cf` on `feat/loyalty-wa-phase1`, not pushed. Message: `loyalty phase 1: step 5A, processReceipt`.
+- Why: The receipt claim path, review holds, and per-sender image hash were ready.
+- Next: Plan step 5B. Do not push until asked.
+
+### 2026-11-16
+- Changed: `npm run db:migrate` on local `atlasnow` (`localhost:5433`). Applied `20261116223000_loyalty_receipt_holds` and `20261116233000_loyalty_image_hash_per_phone`. 47 migrations, all applied.
+- Why: The app needs the new program columns and the per-sender image hash index.
+- Next: Commit only when asked.
+
+### 2026-11-16
+- Changed: Same-photo rule, still staged, not committed. Unique `(tenantId, imageHash)` became `(tenantId, phone, imageHash)` in `20261116233000_loyalty_image_hash_per_phone`. A rejected photo can be claimed by the printed phone. The same sender still keeps one row. `npm test`: 702 tests, 698 pass, 0 fail, 0 cancelled, 4 skipped.
+- Why: A photo rejected from the wrong phone could not be judged again from the right phone.
+- Next: Commit only when asked. Local `atlasnow` still needs `npm run db:migrate` for `20261116223000` and `20261116233000`.
+
+### 2026-11-16
+- Changed: Step 5A completion, still staged, not committed. HQ approve of a held non-member creates the member, intake update, and EARN in one transaction. HQ reject clears the fingerprint so another photo can be claimed. Staff phones come from every outlet. `blockedPhonesJson` rejects `BLOCKED_PHONE`. Daily cap and review ceiling are nullable. `npm test`: 701 tests, 697 pass, 0 fail, 0 cancelled, 4 skipped.
+- Why: A receipt held for audit had no member path, and a blocked or over-cap slip had nowhere to go.
+- Next: Commit only when asked. Local `atlasnow` does not have `20261116223000_loyalty_receipt_holds` until `npm run db:migrate`.
+
+### 2026-11-16
+- Changed: Step 5A `processReceipt` on `feat/loyalty-wa-phase1`, staged, not committed, not pushed. It reads a receipt photo with an injected OCR client, runs `decideReceipt` with Jev off, and stores the member, intake, and EARN. No webhook, no Job, no WhatsApp reply. Migration `20261116210000_loyalty_receipt_claim` only adds columns. Local `atlasnow` was migrated. `npm test`: 697 tests, 693 pass, 0 fail, 0 cancelled, 4 skipped.
+- Why: A valid WhatsApp slip has to become one member, one intake, and one EARN, or none of them.
+- Next: Commit only when asked. Do not start the webhook or Job until asked.
+
+### 2026-11-16
+- Changed: Step 4 committed as `e16473f` on `feat/loyalty-wa-phase1`, not pushed. Client delete removes ledger rows only inside a transaction that sets `atlasnow.ledger_maintain`. Without that, update and delete stay rejected. Intake and outlet deletes say why they stop. Member erase replaces the ledger phone and keeps the points. `pointMinAmount` and `pointMaxPerReceipt` are nullable, with no default. `npm test`: 686 tests, 682 pass, 0 fail, 0 cancelled, 4 skipped.
+- Why: A tenant with points could not be deleted, and a ledger update had no safe erase path.
+- Next: Commit only when asked. Do not start step 5.
+
+### 2026-11-16
+- Changed: Loyalty step 4 is staged on `feat/loyalty-wa-phase1`, not committed and not pushed. `computePoints`, `LoyaltyPointLedger`, `pointBasis` default `TOTAL`, and `photoExpiresAt`. Points approve writes one `EARN` and keeps the photo for 90 days. Stamp approve still clears the photo and writes a stamp, with no ledger row. `npm test`: 679 tests, 675 pass, 0 fail, 0 cancelled, 4 skipped.
+- Why: One intake can earn once, enforced in Postgres. Balance is the ledger sum. Adjustments need a reason and an audit row.
+- Next: Commit only when asked. Do not start step 5. Do not push.
+
+### 2026-11-16
+- Changed: `npm test` now runs `test:unit` then `test:pg` at concurrency 1. Portfolio sample phones are at least 8 digits. Baseline is 667 tests, 663 pass, 0 fail, 0 cancelled, 4 skipped, three times. Not pushed.
+- Why: Parallel database files exhausted Postgres clients. The 4-digit sample never passed the phone filter.
+- Next: Do not raise the Postgres connection limit. OCR skips stay until the service is running.
+
+### 2026-11-16
+- Changed: Test-only commit. Disposable QA databases now apply the two inbox migrations. Catalog import counts a SKU only on its own tenants. `portfolio.test.ts` was left as it is. Not pushed.
+- Why: The 32 cancelled tests were a missing column. The catalog failure was an unscoped SKU query. The portfolio filter and its 4-digit sample are the same commit.
+- Next: Full `npm test` baseline is 667 tests, 658 pass, 5 fail, 0 cancelled, 4 skipped.
+
+### 2026-11-16
+- Changed: Step 3 committed as `51246f7` on `feat/loyalty-wa-phase1`. `decideReceipt`, its tests, and the spec rows for `STAFF_PHONE` and `checks`. Not pushed. Marketing files and `.env.example` stayed out. Step 2 was already `9b9eaf0`.
+- Why: The founder asked to commit the two steps separately.
+- Next: Step 4 is the ledger and `computePoints`. Do not start it until asked. Do not push until asked.
+
+### 2026-11-16
+- Changed: `decideReceipt` now rejects a Customer row that is an outlet or staff number as `STAFF_PHONE`, using `staffPhoneBlocked` and a `staffPhones` input. It still decides on the first failing check, and it also returns every check in `checks`. Spec reply row added. Not committed. Not called from the webhook.
+- Why: An outlet number on the Customer row with the same sender was able to look like a member. The founder asked to close that before the step 3 commit.
+- Next: Step 4 is the ledger and `computePoints`. Do not start it until asked. Do not commit until asked.
+
+### 2026-11-16
+- Changed: Step 3 `decideReceipt` in `src/lib/loyalty/receipt-decision.ts`, with `receipt-decision.test.ts`. Pure function, no database and no I/O. Not committed. Not called from the webhook.
+- Why: Plan step 3. The first failing check wins. Off and shadow ignore Jev and use structure only.
+- Next: Step 4 is the ledger and `computePoints`. Do not start it until asked. Do not commit until asked.
+
+### 2026-11-16
+- Changed: Step 2 committed as `9b9eaf0` on `feat/loyalty-wa-phase1`. RapidOCR service, the 1600 px cap, and the Hang Lekir OCR JSON. Not pushed. Marketing files and `.env.example` stayed out.
+- Why: The founder asked to commit this step.
+- Next: Step 3 is `decideReceipt`. Do not start it until asked. Do not push until asked.
+
+### 2026-11-16
+- Changed: The OCR service itself fits a photo inside 1600×1600 before reading it and returns that width and height. Direct uploads of the fixture, a 1600-wide copy, and a 3000-wide copy all returned HTTP 200 with the same receipt fields. Peaks were 313.6, 316.1, and 312.4 MiB. Compose restart stays `unless-stopped`. Not committed.
+- Why: A raw 3000-wide photo was killed at the 1 GB cap. The service now refuses to read a photo that large.
+- Next: Step 3 is `decideReceipt`. Do not start it until asked.
+
+### 2026-11-16
+- Changed: OCR memory cap before the step 2 commit. Photos are enlarged under 900 px wide, then fitted inside 1600×1600. The OCR process handles one photo at a time. Compose limit is 1 GB. Docker peaks: 315 MiB on the 900×1600 fixture, 803 MiB at 1600×2844, and the 3000×5333 copy was killed. Not committed.
+- Why: A 1600-wide copy already reached 803 MiB, and the 3000-wide copy died at 1 GB.
+- Next: Step 3 is `decideReceipt`. Do not start it until asked.
+
+### 2026-11-16
+- Changed: Step 2 of the WhatsApp membership plan. `ocr/` is a RapidOCR 1.2.3 service (`POST /ocr`). `extractReceipt` calls it and no longer spawns Tesseract. Saved boxes: `src/lib/loyalty/__fixtures__/vilo-hang-lekir-paid.ocr.json`. The original, 12° rotate, half size, and JPEG quality 25 all read receipt `6MQTM8`, customer `628597210806`, total 66550. Not committed.
+- Why: Tesseract failed those three degraded copies. The old receipt path still uses Tesseract when `receiptLayout` is empty.
+- Next: Step 3 is `decideReceipt`. Do not start it until asked.
+
+### 2026-11-16
+- Changed: Step 1 of the WhatsApp membership plan. `extractReceipt` reads the Vilo Hang Lekir fixture (receipt `6MQTM8`, customer `628597210806`, total 66550). Test is `src/lib/loyalty/receipt-extract.test.ts`. Not committed.
+- Why: The old reader takes the postal code and the first Rp amount on that slip.
+- Next: Step 2 is the RapidOCR service. Do not start it until asked. `npm test` still has two older failures outside this step.
+
 ### 2026-11-15
 - Changed: WhatsApp inbox photo retention is commit `9e6b7f0` on `feat/whatsapp-inbox-images`, pushed to origin. Commerce branch `feature/conversational-commerce-m2-4` was not moved.
 - Why: The inbox photo work was uncommitted on the commerce branch. Marketing files, the Vilo receipt fixture, and `.env.example` stayed out.
