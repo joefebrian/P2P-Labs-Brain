@@ -20,6 +20,56 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **WhatsApp Commerce (proposed 2026-10-23):** [[AtlasNow-WhatsApp-Commerce-PRD]] — pilot YOLA FUN. Katalog + cart WhatsApp, order, link bayar di gateway merchant, atribusi cabang. Belum live. Uang tetap [[AtlasNow-Monetization-PRD]]. Nomor tetap [[AtlasNow-WhatsApp-Decision]].
 
+### 2026-11-17
+- Changed: P2 reply text and receipt clock, commit `0b3b42e` on `feat/loyalty-wa-release`, not pushed. Every reject code has a sentence, reply numbers use Indonesian grouping, and a printed time is read in the outlet timezone. Report `docs/superpowers/reports/P2.md`. R4–R7 stay unchecked.
+- Why: A below-minimum receipt was silent, a WITA slip could look expired, and a reply waited until five receipts had finished.
+- Next: R4 only when asked. Do not push while the real receipt fixture is still in unpushed commits.
+
+### 2026-11-17
+- Changed: R3 outlet QR links, commit `4d76aa6` on `feat/loyalty-wa-release`, not pushed. A public outlet link records a coarse scan and redirects to wa.me. Settings can create, deactivate, and download the QR. Migration `20261117180000_loyalty_entry_link` applied on local `atlasnow_release` only. Report `docs/superpowers/reports/R3.md`. R4–R7 stay unchecked.
+- Why: Each outlet needs a QR that opens the workspace WhatsApp with a short message and counts the scan.
+- Next: R4 only when asked. Do not push while the real receipt fixture is still in unpushed commits.
+
+### 2026-11-17
+- Changed: R2 review queue and receipt settings, commit `353a6e5` on `feat/loyalty-wa-release`, not pushed. HQ can approve or reject with a reason, and Settings can save the receipt profile. The first time a profile is saved, audit mode turns on. Report `docs/superpowers/reports/R2.md`. R3–R7 stay unchecked.
+- Why: A brand needs to decide held receipts and set the receipt program from the screen.
+- Next: R3 only when asked. Do not push while the real receipt fixture is still in unpushed commits.
+
+### 2026-11-17
+- Changed: Review fix before R2, commit `b0afc57` on `feat/loyalty-wa-release`, not pushed. One worker round, a fresh clock per claim, a 5-minute lease, and a fifth claim that fails without opening the photo. A read rejection beats an earlier review. A file that is not an image is REJECT `UNREADABLE`. The member-erase token is random. `atlas` no longer depends on the OCR container. Report `docs/superpowers/reports/P1.md`. R2–R7 stay unchecked.
+- Why: The code review found overlapping ticks, a stale clock, a short lease, a guessable erase token, and a review that could hide a rejection already read from the slip.
+- Next: R2 only when asked. Do not push while the real receipt fixture is still in unpushed commits.
+
+### 2026-11-17
+- Changed: R1 receipt replies on `feat/loyalty-wa-release`. One reply job per result when `waReceiptReply` is on. Null budget sends nothing. Migration `20261117140000_loyalty_receipt_reply` applied on local `atlasnow_release` only. Not pushed.
+- Why: A brand with a receipt layout can send one WhatsApp result without changing brands that leave the layout empty.
+- Next: R2 only when asked. Do not push while the real receipt fixture is still in unpushed commits.
+
+### 2026-11-17
+- Changed: Saved `docs/superpowers/plans/2026-11-17-loyalty-runbook.md`. R1 is checked. R2–R7 are unchecked.
+- Why: The next loyalty sessions need one runbook in the repo.
+- Next: Commit only when asked. Do not start R1 until the test-gate and worker commits are in `git log`.
+
+### 2026-11-17
+- Changed: Committed receipt worker hardening as `324a2e3` on `feat/loyalty-wa-release`, not pushed. Claim stays `FOR UPDATE SKIP LOCKED` with a 2-minute lease. Both poll timers are 5 seconds. OCR is capped at 60 seconds and a media download at 20 seconds. Retries wait 1, then 5, then 15 minutes. The fourth failure stores one REVIEW with `rejectCode` SYSTEM and one error-log line (job id and last error). A file that is not a valid image is stored on the first attempt. A receipt up to 15 minutes ahead of the server clock is accepted. `receiptDailyCap` uses the receipt date's calendar day in the outlet timezone, or the HQ timezone when the outlet is unknown. The daily photo purge also deletes finished jobs older than 30 days. No new column.
+- Why: A dead claim, a hanging OCR or download, and a bad file must not stall the queue or write two intakes, and the daily cap must follow the date on the slip.
+- Next: Commit only when asked. Do not push while the real receipt fixture is still in unpushed commits. Replies stay step 6.
+
+### 2026-11-17
+- Changed: On `feat/loyalty-wa-release` (`fc21969`, not pushed): `npm test` always runs unit then database files. Portfolio test counts unique phones of at least 8 digits. A verified receipt photo writes `WaMessage` and the Job in one transaction. Without a verified signature the message is stored, no Job is created, and one error log line is written. Compose passes `LOYALTY_JOB_WORKER` default 1.
+- Why: The public repo must not be pushed with the real receipt, and a message that qualifies for a Job must not be saved without that Job.
+- Next: Push only when asked, and only after the real receipt is no longer in the commits being pushed. Replies stay step 6. slice25 "serves commerce without the orders table" still fails.
+
+### 2026-11-17
+- Changed: Loyalty steps 1–5B now sit on `feat/loyalty-wa-release` (`d32cb23`), based on `origin/release/studio-dago-candidate` (`ab44dfe`). Tag `loyalty-jalur-lama` stays on `8c523d6`. Not pushed. Local database `atlasnow_release` has 56 migrations. `atlasnow` still has 48. `stash@{0}` was not popped.
+- Why: Production runs the release line, so the receipt Job had to land there without the inbox-image and conversational-commerce work.
+- Next: Push only when asked. Replies stay step 6. The portfolio test "counts customers and phones per client" and slice25 "serves commerce without the orders table" still fail as they did on the release baseline.
+
+### 2026-11-17
+- Changed: Committed step 5B as `8c523d6` on `feat/loyalty-wa-phase1`, not pushed. Working tree clean. Site and marketing edits are in `stash@{0}`: "site and marketing WIP, kept off loyalty step 5B".
+- Why: The receipt Job was finished and had to leave the branch with a clean tree.
+- Next: Push only when asked. Restore the stash with `git stash pop` when returning to the site work.
+
 ### 2026-11-16
 - Changed: Step 5B receipt Job, staged, not committed. Webhook enqueues one Job when `receiptLayout` is set. Empty layout stays on `processHqReceiptImage`. Worker, three retries, photo purge, and `LOYALTY_JOB_WORKER=0`. Local `atlasnow` migrated with `20261117001000_loyalty_receipt_job`. `npm test`: 713 tests, 709 pass, 0 fail, 0 cancelled, 4 skipped.
 - Why: OCR must leave the webhook for brands on the new receipt path, and a dead worker must not earn twice.
