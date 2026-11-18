@@ -20,6 +20,26 @@ TikTok developer: org **PT Sorak Digital Media** · app **AtlasNow** (Business) 
 
 **WhatsApp Commerce (proposed 2026-10-23):** [[AtlasNow-WhatsApp-Commerce-PRD]] — pilot YOLA FUN. Katalog + cart WhatsApp, order, link bayar di gateway merchant, atribusi cabang. Belum live. Uang tetap [[AtlasNow-Monetization-PRD]]. Nomor tetap [[AtlasNow-WhatsApp-Decision]].
 
+### 2026-11-18
+- Changed: R7 hapus data member, commit `bfe5a8f` on `feat/loyalty-wa-release`, not pushed. Satu transaksi menghapus baris member, mengganti nomor ledger dan intake dengan token acak yang sama, dan mengosongkan foto serta teks OCR. Chat inbox tetap. Laporan `docs/superpowers/reports/R7.md`. Runbook R7 dicentang.
+- Why: Admin HQ harus bisa menghapus data seorang member atas permintaan orangnya tanpa menghapus riwayat poin per outlet.
+- Next: Langkah runbook selesai. Jangan push selama fixture struk asli masih di commit yang belum di-push. Jangan deploy VPS. Jangan nyalakan `enforce`.
+
+### 2026-11-18
+- Changed: R6 Jev shadow, commit `bd33804` on `feat/loyalty-wa-release`, not pushed. `off` does not call Jev. `shadow` stores the answer on the intake and leaves the decision unchanged. Report `docs/superpowers/reports/R6.md`. R7 stays unchecked.
+- Why: Receipt answers need a calibration log before any judge is allowed to change a decision.
+- Next: R7 only when asked. Do not push while the real receipt fixture is still in unpushed commits. Do not run the Jev smoke script unless a human asks.
+
+### 2026-11-18
+- Changed: R5 join Flow and welcome, commit `10d67bc` on `feat/loyalty-wa-release`, not pushed. A join phrase for a brand with receiptLayout sends a Flow or an agree button. The completion saves a WA_FLOW member with no fake intake. The welcome uses the inbound message id. Report `docs/superpowers/reports/R5.md`. R6–R7 stay unchecked.
+- Why: Customers who scan the outlet QR could not become members from chat, and a welcome reply must not invent a receipt intake.
+- Next: R6 only when asked. Do not push while the real receipt fixture is still in unpushed commits.
+
+### 2026-11-17
+- Changed: R4 keyword router, commit `1f95cd4` on `feat/loyalty-wa-release`, not pushed. POIN, BANTUAN, and BERHENTI are answered for brands with receiptLayout. Those replies have no intake. The inbound message id is their unique key. Report `docs/superpowers/reports/R4.md`. R5–R7 stay unchecked.
+- Why: Keyword replies were still shared with YOLA and workspace automation, and a receipt intake was the only reply key.
+- Next: R5 only when asked. Do not push while the real receipt fixture is still in unpushed commits.
+
 ### 2026-11-17
 - Changed: P2 reply text and receipt clock, commit `0b3b42e` on `feat/loyalty-wa-release`, not pushed. Every reject code has a sentence, reply numbers use Indonesian grouping, and a printed time is read in the outlet timezone. Report `docs/superpowers/reports/P2.md`. R4–R7 stay unchecked.
 - Why: A below-minimum receipt was silent, a WITA slip could look expired, and a reply waited until five receipts had finished.
